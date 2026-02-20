@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Área do Professor</title>
+</head>
+<body>
+
+    <h1>Área do Professor</h1>
+
+    <a href="/">Voltar ao jogo</a>
+    <h2>Iniciar Rodada</h2>
+
+<ul>
+    {% for pergunta in perguntas %}
+        <li>
+            {{ pergunta.texto }}
+            <a href="/iniciar/{{ loop.index0 }}">Iniciar</a>
+        </li>
+    {% endfor %}
+</ul>
+
+    <h2>Controle de Pontuação</h2>
+
+    <ul>
+        {% for equipe in equipes %}
+            <li>
+                {{ equipe.nome }} - {{ equipe.pontos }} pontos
+                <a href="/pontuar/{{ loop.index0 }}">+10 pontos</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+</body>
+</html>

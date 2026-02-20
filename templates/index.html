@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Refaz - Início</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container-inicio">
+    
+    <div class="logo-container">
+        <img src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?auto=format&fit=crop&w=800&q=80" alt="Brechó Refaz" class="img-logo">
+    </div>
+
+    <h1>Refaz – Decisão Contábil Estratégica</h1>
+
+    <div class="quadro-missao">
+        <h2>🎯 Objetivo da Simulação</h2>
+        <p>Sua missão não é apenas lucrar, mas sim <strong>equilibrar</strong> a saúde financeira (Resultado) com a segurança jurídica (Risco), a ética socioambiental (ESG) e o rigor normativo (Conformidade). O vencedor será aquele que melhor gerir esse <i>trade-off</i> contábil.</p>
+    </div>
+
+    <div class="quadro-regras">
+        <h2>⏱️ Regras da Rodada</h2>
+        <div class="regras-lista">
+            <p>📌 <strong>Tempo de Análise:</strong> Os grupos terão <strong>10 minutos por dilema</strong> para debater a norma.</p>
+            <p>📌 <strong>Justificativa Obrigatória:</strong> Cada consultoria deve anotar a base técnica (CPC) que sustenta sua escolha.</p>
+            <p>📌 <strong>Sabatina:</strong> O professor (Auditor) poderá exigir a explicação a qualquer momento. Se a defesa falhar, a penalidade será aplicada!</p>
+        </div>
+    </div>
+
+    <div class="quadro-impacto">
+        <h2>📊 Indicadores de Performance</h2>
+        <div class="impacto-grid">
+            <div class="impacto-card">
+                <strong>💰 Resultado</strong>
+                <p>Lucro e valor dos ativos.</p>
+            </div>
+            <div class="impacto-card">
+                <strong>🛡️ Risco</strong>
+                <p>Perigo de multas e ajustes fiscais.</p>
+            </div>
+            <div class="impacto-card">
+                <strong>📜 Conformidade</strong>
+                <p>Aderência técnica ao CPC 16.</p>
+            </div>
+            <div class="impacto-card">
+                <strong>🌱 ESG</strong>
+                <p>Transparência e compromisso social.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="quadro-pontuacao">
+        <h2>🛡️ Posturas de Gestão (Perfis)</h2>
+        <table class="tabela-pontos">
+            <thead>
+                <tr>
+                    <th>Perfil Escolhido</th>
+                    <th>Resultado</th>
+                    <th>Risco</th>
+                    <th>Conformidade</th>
+                    <th>ESG</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="txt-cons">CONSERVADOR</td>
+                    <td>⬇️ Baixo</td>
+                    <td>✅ Mínimo</td>
+                    <td>⬆️ Alto</td>
+                    <td>⬆️ Alto</td>
+                </tr>
+                <tr>
+                    <td class="txt-mod">MODERADO</td>
+                    <td>➡️ Médio</td>
+                    <td>⚠️ Médio</td>
+                    <td>➡️ Médio</td>
+                    <td>➡️ Médio</td>
+                </tr>
+                <tr>
+                    <td class="txt-agr">AGRESSIVO</td>
+                    <td>⬆️ Máximo</td>
+                    <td>🔥 Alto</td>
+                    <td>⬇️ Baixo</td>
+                    <td>⬇️ Baixo</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="card-inicio">
+        <form action="/iniciar" method="post">
+            <div class="input-group">
+                <input type="text" name="grupo1" placeholder="Nome da Consultoria Alpha" required>
+                <input type="text" name="grupo2" placeholder="Nome da Consultoria Beta" required>
+            </div>
+            <button type="submit" class="btn-iniciar-jogo">🚀 INICIAR SIMULAÇÃO</button>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>
