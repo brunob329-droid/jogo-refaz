@@ -1,0 +1,313 @@
+/* ============================================================
+   ESTILO GERAL - REFAZ: DECISÃO CONTÁBIL
+   ============================================================ */
+
+body {
+    background-color: #0B0B0B;
+    color: #F5F5F5;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 20px;
+    line-height: 1.6;
+}
+
+h1 { 
+    color: #3B82F6; 
+    margin-bottom: 30px; 
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+h2 { color: #94A3B8; }
+
+/* CONTEINER PRINCIPAL */
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* PAINÉIS E GRIDS */
+.painel-indicadores, .painel-decisao {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+/* CARTÕES DOS TIMES (DASHBOARD) */
+.card-time-dash {
+    background-color: #0A1F44;
+    padding: 25px;
+    border-radius: 12px;
+    width: 320px;
+    border: 1px solid #1E3A8A;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    transition: transform 0.3s;
+}
+
+.card-time-dash:hover {
+    transform: translateY(-5px);
+    border-color: #3B82F6;
+}
+
+.stats {
+    text-align: left;
+    margin-bottom: 15px;
+}
+
+.stats p {
+    margin: 8px 0;
+    font-size: 1.1em;
+}
+
+/* BOTÃO DE AUDITORIA (CORRIGIDO) */
+.btn-auditoria {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 10px 15px;
+    background-color: #450a0a;
+    color: #fca5a5;
+    border: 1px solid #991b1b;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.85em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-auditoria:hover {
+    background-color: #991b1b;
+    color: white;
+    box-shadow: 0 0 10px rgba(220, 38, 38, 0.5);
+}
+
+/* CARTÃO DE CONTEXTO (TELA DE DILEMA) */
+.card-contexto {
+    background-color: #111827;
+    border-left: 6px solid #3B82F6;
+    padding: 25px;
+    margin: 20px auto;
+    max-width: 800px;
+    text-align: left;
+    border-radius: 4px;
+}
+
+.card-contexto h2 {
+    color: #3B82F6;
+    margin-top: 0;
+}
+
+/* BOTÕES DE ESCOLHA (CONSERVADORA, MODERADA, AGRESSIVA) */
+.btn {
+    display: block;
+    margin: 12px 0;
+    padding: 15px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    color: white;
+    transition: 0.3s;
+    text-align: center;
+}
+
+.btn-cons { background-color: #059669; } /* Verde - Conservadora */
+.btn-mod { background-color: #D97706; }  /* Laranja - Moderada */
+.btn-agr { background-color: #DC2626; }  /* Vermelho - Agressiva */
+
+.btn:hover { 
+    filter: brightness(1.2);
+    transform: scale(1.03);
+}
+
+/* STATUS DE VOTO REGISTADO */
+.status-voto.ok {
+    color: #10B981;
+    font-weight: bold;
+    border: 2px solid #10B981;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: rgba(16, 185, 129, 0.1);
+}
+
+/* LISTA DE DILEMAS NO DASHBOARD */
+.card-dilema-link {
+    background-color: #111827;
+    padding: 20px;
+    margin: 15px auto;
+    max-width: 600px;
+    border-radius: 10px;
+    border: 1px dashed #3B82F6;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn-resolver {
+    color: #3B82F6;
+    text-decoration: none;
+    border: 1px solid #3B82F6;
+    padding: 8px 20px;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+.btn-resolver:hover {
+    background-color: #3B82F6;
+    color: black;
+}
+
+/* MODAL DE FIM DE JOGO */
+.modal-fim {
+    position: fixed; 
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.95); 
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    z-index: 999;
+}
+
+.fim-conteudo {
+    background: #0A1F44; 
+    padding: 60px; 
+    border-radius: 20px; 
+    border: 3px solid #3B82F6;
+    box-shadow: 0 0 50px rgba(59, 130, 246, 0.4);
+}
+
+/* UTILITÁRIOS */
+hr { border: 0.5px solid #1E3A8A; opacity: 0.3; }
+.link-voltar { color: #9CA3AF; text-decoration: none; margin-top: 20px; display: inline-block; }
+.link-voltar:hover { color: white; }
+.bloco-opcao {
+    margin-bottom: 25px;
+    padding: 10px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 8px;
+}
+
+.legenda-tecnica {
+    font-size: 0.85em;
+    color: #cbd5e1;
+    margin-top: 8px;
+    font-style: italic;
+    line-height: 1.3;
+}
+/* Estilos para a Tela Inicial */
+.container-inicio { max-width: 900px; margin: 0 auto; padding: 20px; }
+
+.img-logo { width: 100%; max-width: 600px; border-radius: 10px; margin-bottom: 20px; border: 2px solid #3B82F6; }
+
+.quadro-regras, .quadro-pontuacao { 
+    background: #111827; 
+    padding: 20px; 
+    border-radius: 12px; 
+    margin-bottom: 25px; 
+    text-align: left;
+    border: 1px solid #1E3A8A;
+}
+
+.regras-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin-top: 15px; }
+
+.regra-item { background: #1e293b; padding: 15px; border-radius: 8px; font-size: 0.9em; }
+
+.regra-item strong { display: block; color: #3B82F6; margin-bottom: 5px; }
+
+.tabela-pontos { width: 100%; border-collapse: collapse; margin-top: 15px; }
+
+.tabela-pontos th, .tabela-pontos td { padding: 12px; border-bottom: 1px solid #1e3a8a; font-size: 0.9em; }
+
+.txt-cons { color: #059669; font-weight: bold; }
+.txt-mod { color: #D97706; font-weight: bold; }
+.txt-agr { color: #DC2626; font-weight: bold; }
+
+.card-inicio { background: #0A1F44; padding: 30px; border-radius: 12px; }
+
+.input-group { display: flex; gap: 15px; margin-bottom: 20px; }
+
+.input-group input { 
+    flex: 1; padding: 12px; border-radius: 6px; border: 1px solid #1E3A8A; 
+    background: #0f172a; color: white; font-size: 1em;
+}
+
+.btn-iniciar-jogo {
+    width: 100%; padding: 15px; background: #3B82F6; color: white; 
+    border: none; border-radius: 8px; font-size: 1.2em; font-weight: bold; cursor: pointer;
+}
+
+.btn-iniciar-jogo:hover { background: #2563EB; }
+.impacto-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.impacto-card {
+    background: #1e293b;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid #3B82F6;
+}
+
+.impacto-card .icon { font-size: 1.5em; display: block; margin-bottom: 5px; }
+
+.impacto-card strong { color: #3B82F6; font-size: 1em; }
+
+.impacto-card p { font-size: 0.85em; margin-top: 5px; color: #94a3b8; }
+
+.img-logo {
+    width: 100%;
+    max-height: 250px;
+    object-fit: cover; /* Faz a foto se ajustar bem ao espaço */
+    border-radius: 12px;
+    border-bottom: 3px solid #3B82F6;
+}
+.quadro-missao {
+    background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #3b82f6;
+}
+
+.quadro-missao h2 { color: #fff; margin-top: 0; }
+
+.quadro-regras {
+    background: #111827;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    border-left: 5px solid #d97706; /* Cor laranja para atenção ao tempo */
+    text-align: left;
+}
+
+.regras-lista p {
+    margin: 10px 0;
+    font-size: 1em;
+    color: #cbd5e1;
+}
+
+.impacto-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.impacto-card {
+    background: #1e293b;
+    padding: 12px;
+    border-radius: 8px;
+    text-align: center;
+}
+/* Se o risco for alto, ele brilha em vermelho */
+.stats strong {
+    transition: color 0.3s;
+}
+
+/* Você pode fazer isso via lógica no HTML do dashboard: */
+/* <strong style="color: {{ 'red' if time.risco > 40 else 'white' }}">{{ time.risco }}</strong> */
