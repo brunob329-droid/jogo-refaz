@@ -4,170 +4,229 @@
     <meta charset="UTF-8">
     <title>Dashboard - Refaz</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
     <style>
         :root {
-            --conservador: #10b981; /* Verde */
-            --moderado: #f59e0b;    /* Amarelo */
-            --agressivo: #ef4444;    /* Vermelho */
+            --conservador: #10b981;
+            --moderado: #f59e0b;
+            --agressivo: #ef4444;
         }
 
+        body {
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 5px;
+        }
+
+        .rodada-info {
+            color: #94a3b8;
+            font-size: 1.1em;
+            margin-bottom: 20px;
+        }
+
+        /* CENTRALIZAÇÃO PARA PROJEÇÃO */
         .painel-indicadores {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 25px;
-            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin-top: 30px;
         }
 
         .card-time-dash {
             background: #1e293b;
             border: 2px solid #334155;
-            border-radius: 12px;
-            padding: 20px;
+            border-radius: 16px;
+            padding: 25px;
+            width: 320px;
             position: relative;
-            display: flex;
-            flex-direction: column;
             transition: all 0.3s ease;
         }
 
-        .vencedor-atual { border-color: #fbbf24; box-shadow: 0 0 20px rgba(251, 191, 36, 0.2); }
+        .card-time-dash:hover {
+            transform: scale(1.03);
+        }
+
+        /* DESTAQUE DO LÍDER */
+        .vencedor-atual {
+            border: 2px solid #fbbf24;
+            box-shadow: 0 0 25px rgba(251, 191, 36, 0.4);
+            transform: scale(1.05);
+        }
+
+        .vencedor-tag {
+            position: absolute;
+            top: -12px;
+            right: 15px;
+            background: #fbbf24;
+            color: #000;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 12px;
+        }
 
         .perfil-badge {
             display: inline-block;
-            padding: 4px 12px;
+            padding: 5px 12px;
             border-radius: 20px;
             font-size: 11px;
             font-weight: bold;
             text-transform: uppercase;
             margin-bottom: 10px;
-            letter-spacing: 0.5px;
         }
-        .perfil-conservador { background: rgba(16, 185, 129, 0.2); color: var(--conservador); border: 1px solid var(--conservador); }
-        .perfil-moderado { background: rgba(245, 158, 11, 0.2); color: var(--moderado); border: 1px solid var(--moderado); }
-        .perfil-agressivo { background: rgba(239, 68, 68, 0.2); color: var(--agressivo); border: 1px solid var(--agressivo); }
-        .perfil-aguardando { background: rgba(148, 163, 184, 0.2); color: #94a3b8; border: 1px solid #94a3b8; }
+
+        .perfil-conservador { background: rgba(16,185,129,0.2); color: var(--conservador); border: 1px solid var(--conservador); }
+        .perfil-moderado { background: rgba(245,158,11,0.2); color: var(--moderado); border: 1px solid var(--moderado); }
+        .perfil-agressivo { background: rgba(239,68,68,0.2); color: var(--agressivo); border: 1px solid var(--agressivo); }
+        .perfil-aguardando { background: rgba(148,163,184,0.2); color: #94a3b8; border: 1px solid #94a3b8; }
+
+        .stats p {
+            display: flex;
+            justify-content: space-between;
+            margin: 6px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding-bottom: 2px;
+        }
 
         .secao-motivos {
             margin-top: 15px;
-            padding-top: 15px;
             border-top: 1px solid #334155;
-            flex-grow: 1;
+            padding-top: 10px;
         }
-        .secao-motivos h4 { font-size: 0.85rem; color: #94a3b8; margin-bottom: 8px; text-transform: uppercase; }
-        
+
+        .secao-motivos h4 {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            margin-bottom: 5px;
+        }
+
         .lista-motivos {
             list-style: none;
             padding: 0;
             margin: 0;
-            max-height: 120px;
+            max-height: 90px;
             overflow-y: auto;
         }
+
         .lista-motivos li {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: #cbd5e1;
-            margin-bottom: 6px;
-            padding-left: 12px;
-            position: relative;
-        }
-        .lista-motivos li::before {
-            content: "•";
-            position: absolute;
-            left: 0;
-            color: #3b82f6;
+            margin-bottom: 4px;
         }
 
-        .stats p { display: flex; justify-content: space-between; margin: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .vencedor-tag { position: absolute; top: -10px; right: 10px; background: #fbbf24; color: #000; padding: 2px 10px; border-radius: 10px; font-weight: bold; font-size: 12px; }
+        /* ÚLTIMA DECISÃO (DESTAQUE DIDÁTICO) */
+        .ultima-decisao {
+            margin-top: 10px;
+            font-size: 0.8rem;
+            color: #a7f3d0;
+            background: rgba(16,185,129,0.1);
+            padding: 6px;
+            border-radius: 6px;
+        }
+
+        /* DILEMAS */
+        .lista-dilemas {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+
+        .card-dilema-link {
+            background: #1e293b;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 5px solid #3b82f6;
+            width: 300px;
+            transition: 0.3s;
+        }
+
+        .card-dilema-link:hover {
+            transform: scale(1.05);
+        }
+
+        .btn-acao {
+            background: #3b82f6;
+            color: white;
+            padding: 10px;
+            border-radius: 6px;
+            display: block;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
     </style>
 </head>
+
 <body>
 
 <h1>Refaz – Gestão Contábil Estratégica</h1>
 
+<div class="rodada-info">
+    🎯 Rodada {{ rodada }} de {{ total_rodadas }}
+</div>
+
 <div class="painel-indicadores">
     {% for key, team in teams.items() %}
     <div class="card-time-dash {% if team == equipe_vencedora %}vencedor-atual{% endif %}">
-        
-        <div class="perfil-badge perfil-{{ team.perfil_predominante|lower }}">
-            Perfil: {{ team.perfil_predominante }}
-        </div>
 
         {% if team == equipe_vencedora %}
             <span class="vencedor-tag">🏆 Líder</span>
         {% endif %}
-        
-        <h2 style="margin-top: 0;">{{ team.nome }}</h2>
-        
-        <div class="stats">
-            <p><span>💰 Resultado:</span> <strong>{{ team.resultado }}</strong></p>
-            <p><span>🛡️ Risco:</span> <strong>{{ team.risco }}</strong></p>
-            <p><span>🌱 ESG:</span> <strong>{{ team.esg }}</strong></p>
-            <p><span>📊 Técnica:</span> <strong>{{ team.tecnica }}</strong></p>
+
+        <div class="perfil-badge perfil-{{ team.perfil_predominante|lower }}">
+            {{ team.perfil_predominante }}
         </div>
 
-        <div class="secao-motivos">
-            <h4>Histórico de Decisões:</h4>
-            <ul class="lista-motivos">
-                {% for motivo in team.motivos %}
-                    <li>{{ motivo }}</li>
-                {% endfor %}
-            </ul>
+        <h2>{{ team.nome }}</h2>
+
+        <div class="stats">
+            <p><span>💰 Resultado</span> <strong>{{ team.resultado }}</strong></p>
+            <p><span>🛡️ Risco</span> <strong>{{ team.risco }}</strong></p>
+            <p><span>🌱 ESG</span> <strong>{{ team.esg }}</strong></p>
+            <p><span>📊 Técnica</span> <strong>{{ team.tecnica }}</strong></p>
         </div>
-        
-        <div style="margin-top: 15px; display: flex; gap: 5px;">
-            <a href="/professor_ajuste/{{ key }}/bonus" style="flex: 1; background: #064e3b; color: #d1fae5; text-decoration: none; padding: 8px; border-radius: 4px; font-size: 11px; text-align: center; font-weight: bold; border: 1px solid #10b981;">
-                ✅ Bônus Técnica
-            </a>
-            <a href="/professor_ajuste/{{ key }}/penalidade" style="flex: 1; background: #7f1d1d; color: #fecaca; text-decoration: none; padding: 8px; border-radius: 4px; font-size: 11px; text-align: center; font-weight: bold; border: 1px solid #ef4444;">
-                ❌ Ressalva Técnica
-            </a>
+
+        {% if team.motivos %}
+        <div class="ultima-decisao">
+            Última decisão:<br>
+            {{ team.motivos[-1] }}
         </div>
+        {% endif %}
+
     </div>
     {% endfor %}
 </div>
 
-<div class="painel-eventos" style="background: #0f172a; padding: 20px; border: 2px solid #3b82f6; border-radius: 12px; margin: 40px 0;">
-    <h3 style="color: #3b82f6; margin-bottom: 15px; text-align: center;">🃏 Painel de Eventos do Professor</h3>
-    <div style="display: flex; gap: 15px; flex-wrap: wrap;">
-        <a href="/disparar_evento/fiscalizacao" style="background: #7f1d1d; color: #fecaca; padding: 12px; text-decoration: none; border-radius: 6px; flex: 1; text-align: center; font-weight: bold; border: 1px solid #ef4444; min-width: 200px;">
-            🚨 Ativar Fiscalização
-        </a>
-        <a href="/disparar_evento/investidor" style="background: #064e3b; color: #d1fae5; padding: 12px; text-decoration: none; border-radius: 6px; flex: 1; text-align: center; font-weight: bold; border: 1px solid #10b981; min-width: 200px;">
-            💎 Ativar Investidor ESG
-        </a>
-    </div>
-</div>
+<h2 style="margin-top:50px;">Casos Disponíveis</h2>
 
-<h2>Casos Disponíveis</h2>
-<div class="lista-dilemas" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; margin-bottom: 50px;">
+<div class="lista-dilemas">
     {% for key, dilema in dilemas.items() %}
-        <div class="card-dilema-link" style="background: #1e293b; padding: 20px; border-radius: 8px; border-left: 5px solid #3b82f6;">
-            <h3 style="margin-top: 0;">{{ dilema.titulo }}</h3>
-            <p style="font-size: 14px; color: #94a3b8; margin-bottom: 15px;">{{ dilema.contexto[:80] }}...</p>
-            <a href="/dilema/{{ key }}" style="background: #3b82f6; color: white; text-decoration: none; padding: 10px 15px; border-radius: 4px; display: inline-block; font-weight: bold; width: 100%; text-align: center; box-sizing: border-box;">Analisar Caso</a>
+        <div class="card-dilema-link">
+            <h3>{{ dilema.titulo }}</h3>
+            <p style="font-size:13px; color:#94a3b8;">
+                {{ dilema.contexto[:90] }}...
+            </p>
+            <a href="/dilema/{{ key }}" class="btn-acao">
+                Analisar Caso
+            </a>
         </div>
     {% endfor %}
 </div>
 
 {% if jogo_encerrado %}
-<div id="modalFim" class="modal-fim" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.98); display: flex; align-items: center; justify-content: center; z-index: 2000; padding: 20px;">
-    <div class="fim-conteudo" style="background: #1e293b; padding: 40px; border-radius: 20px; text-align: center; border: 2px solid #fbbf24; max-width: 800px; width: 100%;">
-        <h2 style="font-size: 2rem; color: #fbbf24;">🏁 Ciclo Contábil Encerrado</h2>
-        
-        <div style="margin: 30px 0; padding: 20px; background: rgba(251, 191, 36, 0.1); border-radius: 15px;">
-            <h3 style="margin: 0; color: #94a3b8;">🥇 Consultoria Líder</h3>
-            <h1 style="font-size: 3rem; margin: 10px 0;">{{ equipe_vencedora.nome }}</h1>
-            <p>Perfil Final: <strong>{{ equipe_vencedora.perfil_predominante }}</strong></p>
-        </div>
+<div style="margin-top:60px; padding:30px; background:#1e293b; border:2px solid #fbbf24; border-radius:20px;">
+    <h2 style="color:#fbbf24;">🏁 Jogo Encerrado</h2>
+    <h1>{{ equipe_vencedora.nome }}</h1>
+    <p>Perfil: {{ equipe_vencedora.perfil_predominante }}</p>
 
-        <div style="display: flex; gap: 10px; justify-content: center;">
-            <button onclick="document.getElementById('modalFim').style.display='none'" style="padding: 15px 25px; background: #475569; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">
-                📊 Ver Detalhes e Perfis
-            </button>
-            <a href="/reiniciar" style="padding: 15px 25px; background: #3B82F6; color: white; text-decoration: none; border-radius: 8px; font-weight: bold;">
-                Nova Partida
-            </a>
-        </div>
-    </div>
+    <a href="/reiniciar" style="margin-top:15px; display:inline-block; padding:12px 20px; background:#3b82f6; color:white; border-radius:8px; text-decoration:none; font-weight:bold;">
+        Nova Partida
+    </a>
 </div>
 {% endif %}
 
