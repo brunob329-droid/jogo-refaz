@@ -5,86 +5,229 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Refaz - Início</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
     <style>
-        /* Estilos rápidos para os novos botões */
-        .input-group { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
-        .btn-adicionar { 
-            background-color: #28a745; color: white; border: none; padding: 10px; 
-            border-radius: 5px; cursor: pointer; margin-bottom: 10px; font-weight: bold;
+        body {
+            background: #020617;
+            color: #e2e8f0;
+            font-family: Arial, sans-serif;
         }
-        .btn-adicionar:hover { background-color: #218838; }
-        .input-dinamico { position: relative; display: flex; gap: 5px; }
-        .btn-remover { background: #dc3545; color: white; border: none; border-radius: 3px; cursor: pointer; padding: 0 10px; }
+
+        .container-inicio {
+            max-width: 900px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #3b82f6;
+            margin-bottom: 20px;
+        }
+
+        .logo-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .img-logo {
+            width: 100%;
+            max-width: 600px;
+            border-radius: 12px;
+            opacity: 0.9;
+        }
+
+        .quadro {
+            background: #0f172a;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 4px solid #3b82f6;
+        }
+
+        .quadro h2 {
+            margin-top: 0;
+            color: #3b82f6;
+        }
+
+        .impacto-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+        }
+
+        .impacto-card {
+            background: #1e293b;
+            padding: 10px;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .card-inicio {
+            background: #1e293b;
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid #334155;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .input-dinamico {
+            display: flex;
+            gap: 5px;
+        }
+
+        input {
+            flex: 1;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #334155;
+            background: #020617;
+            color: white;
+        }
+
+        .btn-adicionar {
+            background: #16a34a;
+            border: none;
+            padding: 10px;
+            border-radius: 6px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .btn-remover {
+            background: #dc2626;
+            border: none;
+            color: white;
+            padding: 0 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn-iniciar-jogo {
+            width: 100%;
+            margin-top: 15px;
+            background: #3b82f6;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .btn-iniciar-jogo:hover {
+            background: #2563eb;
+        }
+
+        .contador {
+            text-align: right;
+            font-size: 12px;
+            color: #94a3b8;
+        }
     </style>
 </head>
+
 <body>
 
 <div class="container-inicio">
-    
+
     <div class="logo-container">
-        <img src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?auto=format&fit=crop&w=800&q=80" alt="Brechó Refaz" class="img-logo">
+        <img src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?auto=format&fit=crop&w=800&q=80" class="img-logo">
     </div>
 
-    <h1>Refaz – Decisão Contábil Estratégica</h1>
+    <h1>Refaz – Gestão Contábil Estratégica</h1>
 
-    <div class="quadro-missao">
-        <h2>🎯 Objetivo da Simulação</h2>
-        <p>Sua missão não é apenas lucrar, mas sim <strong>equilibrar</strong> a saúde financeira (Resultado) com a segurança jurídica (Risco), a ética socioambiental (ESG) e o rigor normativo (Conformidade). O vencedor será aquele que melhor gerir esse <i>trade-off</i> contábil.</p>
+    <div class="quadro">
+        <h2>🎯 Objetivo</h2>
+        <p>
+            Equilibrar <strong>Resultado</strong>, <strong>Risco</strong>, 
+            <strong>ESG</strong> e <strong>Técnica Contábil</strong>.
+            Decisões impactam diretamente o desempenho da consultoria.
+        </p>
     </div>
 
-    <div class="quadro-regras">
-        <h2>⏱️ Regras da Rodada</h2>
-        <div class="regras-lista">
-            <p>📌 <strong>Tempo de Análise:</strong> Os grupos terão <strong>10 minutos por dilema</strong> para debater a norma.</p>
-            <p>📌 <strong>Justificativa Obrigatória:</strong> Cada consultoria deve anotar a base técnica (CPC) que sustenta sua escolha.</p>
-            <p>📌 <strong>Sabatina:</strong> O professor (Auditor) poderá exigir a explicação a qualquer momento. Se a defesa falhar, a penalidade será aplicada!</p>
-        </div>
+    <div class="quadro">
+        <h2>⏱️ Regras</h2>
+        <p>• 10 minutos por dilema</p>
+        <p>• Justificar com base técnica (CPC)</p>
+        <p>• Professor pode auditar decisões</p>
     </div>
 
-    <div class="quadro-impacto">
-        <h2>📊 Indicadores de Performance</h2>
+    <div class="quadro">
+        <h2>📊 Indicadores</h2>
         <div class="impacto-grid">
-            <div class="impacto-card"><strong>💰 Resultado</strong><p>Lucro/Ativos</p></div>
-            <div class="impacto-card"><strong>🛡️ Risco</strong><p>Multas/Fisco</p></div>
-            <div class="impacto-card"><strong>📜 Conformidade</strong><p>CPC 16</p></div>
-            <div class="impacto-card"><strong>🌱 ESG</strong><p>Social/Ética</p></div>
+            <div class="impacto-card">💰 Resultado</div>
+            <div class="impacto-card">🛡️ Risco</div>
+            <div class="impacto-card">🌱 ESG</div>
+            <div class="impacto-card">📊 Técnica</div>
         </div>
     </div>
 
     <div class="card-inicio">
         <h2>👥 Cadastro de Grupos</h2>
+
         <form action="/iniciar" method="post">
             <div id="container-grupos" class="input-group">
+
                 <div class="input-dinamico">
-                    <input type="text" name="nomes_grupos" placeholder="Nome da Consultoria 1" required>
+                    <input type="text" name="nomes_groups" placeholder="Consultoria 1" required>
                 </div>
+
                 <div class="input-dinamico">
-                    <input type="text" name="nomes_grupos" placeholder="Nome da Consultoria 2" required>
+                    <input type="text" name="nomes_groups" placeholder="Consultoria 2" required>
                 </div>
+
             </div>
 
-            <button type="button" class="btn-adicionar" onclick="addGrupo()">➕ Adicionar Novo Grupo</button>
-            <hr>
-            <button type="submit" class="btn-iniciar-jogo">🚀 INICIAR SIMULAÇÃO</button>
+            <div class="contador" id="contador">2 grupos</div>
+
+            <button type="button" class="btn-adicionar" onclick="addGrupo()">
+                ➕ Adicionar Grupo
+            </button>
+
+            <button type="submit" class="btn-iniciar-jogo">
+                🚀 Iniciar Simulação
+            </button>
         </form>
     </div>
+
 </div>
 
 <script>
-    function addGrupo() {
-        const container = document.getElementById('container-grupos');
-        const totalGrupos = container.querySelectorAll('input').length + 1;
-        
-        const div = document.createElement('div');
-        div.className = 'input-dinamico';
-        div.innerHTML = `
-            <input type="text" name="nomes_grupos" placeholder="Nome da Consultoria ${totalGrupos}" required>
-            <button type="button" class="btn-remover" onclick="this.parentElement.remove()">✕</button>
-        `;
-        container.appendChild(div);
-    }
+function addGrupo() {
+    const container = document.getElementById('container-grupos');
+    const total = container.querySelectorAll('input').length + 1;
+
+    const div = document.createElement('div');
+    div.className = 'input-dinamico';
+
+    div.innerHTML = `
+        <input type="text" name="nomes_groups" placeholder="Consultoria ${total}" required>
+        <button type="button" class="btn-remover" onclick="removerGrupo(this)">✕</button>
+    `;
+
+    container.appendChild(div);
+    atualizarContador();
+}
+
+function removerGrupo(btn) {
+    btn.parentElement.remove();
+    atualizarContador();
+}
+
+function atualizarContador() {
+    const total = document.querySelectorAll('#container-grupos input').length;
+    document.getElementById('contador').innerText = total + " grupos";
+}
 </script>
 
-<script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
