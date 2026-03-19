@@ -20,46 +20,13 @@ def criar_time(nome):
         "auditorias_restantes": 2
     }
 
-# =============================
-# DILEMAS (BASEADOS NO ROTEIRO REFAZ)
-# =============================
+# ==========================================
+# DILEMAS (ÚLTIMOS 3 DO ROTEIRO REFAZ)
+# ==========================================
 
 dilemas = {
-    "doacoes": {
-        "titulo": "1. Doações e Compras sem Nota (O Início)",
-        "contexto": "O estoque físico tem 10.000 peças: 7.000 doadas e 3.000 compradas por R$ 120 mil sem NF. Vitor precisa decidir como mensurar esse ativo inicial.",
-        "conflito": "Daniela: 'O estoque é nosso maior ativo, não pode ser zero!' | Vitor: 'Sem NF, como comprovar o custo em uma auditoria?'",
-        "desc_conservadora": "Registra doações a R$ 1 e compras sem NF como despesa. Foco em compliance fiscal.",
-        "desc_moderada": "Avalia pelo Valor Justo (similares) e registra compras pelo valor de mercado (R$ 120 mil).",
-        "desc_agressiva": "Registra pelo preço de venda futuro e capitaliza os R$ 15 mil de higienização.",
-        "conservadora": {"resultado": -15, "risco": -10, "esg": +5, "tecnica": +10},
-        "moderada": {"resultado": -5, "risco": +5, "esg": +10, "tecnica": +10},
-        "agressiva": {"resultado": +20, "risco": +25, "esg": -5, "tecnica": -15}
-    },
-    "obsolescencia": {
-        "titulo": "2. Obsolescência (Marketing vs. Financeiro)",
-        "contexto": "1.500 peças (R$ 15.000) têm VRL próximo de zero. São itens fora de moda ou manchados.",
-        "conflito": "Marketing: 'Mantenha no site para atrair visitantes!' | Financeiro: 'Isso é estoque podre, vamos limpar o balanço!'",
-        "desc_conservadora": "Baixa integral imediata dos R$ 15.000. Prioriza a prudência e liquidez real.",
-        "desc_moderada": "Mantém no sistema com Provisão para Perdas (PVL) de 80%. Equilibra operação e técnica.",
-        "desc_agressiva": "Mantém valor de custo integral (R$ 10/un). Justifica como 'estoque de marketing'.",
-        "conservadora": {"resultado": -15, "risco": -5, "esg": +5, "tecnica": +15},
-        "moderada": {"resultado": -8, "risco": +5, "esg": +5, "tecnica": +10},
-        "agressiva": {"resultado": +5, "risco": +20, "esg": -10, "tecnica": -10}
-    },
-    "verao_sustentavel": {
-        "titulo": "3. Coleção Verão (Custo R$ 30k vs. VRL R$ 10k)",
-        "contexto": "A coleção ocupa 40% do estoque. O custo é R$ 30 mil, mas o valor de mercado (VRL) caiu para R$ 10 mil.",
-        "conflito": "Diretoria: 'Não faça promoções agressivas para não desvalorizar a marca!' | Vitor: 'O CPC 16 exige o ajuste ao VRL!'",
-        "desc_conservadora": "Reconhece perda integral de R$ 20.000 imediatamente. Rigor absoluto com a norma.",
-        "desc_moderada": "Reconhece perda parcial e detalha a estratégia de marca em Nota Explicativa.",
-        "desc_agressiva": "Mantém os R$ 30 mil. Alega que o valor 'retornará' no próximo verão (Sazonalidade).",
-        "conservadora": {"resultado": -20, "risco": -10, "esg": +5, "tecnica": +15},
-        "moderada": {"resultado": -10, "risco": +5, "esg": +5, "tecnica": +8},
-        "agressiva": {"resultado": +10, "risco": +25, "esg": -5, "tecnica": -15}
-    },
     "consignacao": {
-        "titulo": "4. Consignação (Influenciadores)",
+        "titulo": "1. Consignação (Influenciadores)",
         "contexto": "800 itens recebidos (R$ 80/un). A Refaz ganha 60% da venda. Devemos registrar essas peças como nosso Ativo?",
         "conflito": "Daniela: 'Se o estoque parecer maior, atraímos mais investidores!' | Vitor: 'O controle e riscos são diferentes.'",
         "desc_conservadora": "Controle apenas extracontábil (Contas de Compensação). Não infla o Ativo.",
@@ -70,7 +37,7 @@ dilemas = {
         "agressiva": {"resultado": +25, "risco": +30, "esg": -10, "tecnica": -20}
     },
     "prove_em_casa": {
-        "titulo": "5. Venda Condicional (Prove em Casa)",
+        "titulo": "2. Venda Condicional (Prove em Casa)",
         "contexto": "300 peças enviadas, mas apenas 180 confirmadas. Vitor precisa decidir o momento da receita (CPC 47).",
         "conflito": "Renata: 'O produto saiu da prateleira, já é venda!' | Vitor: 'O cliente ainda pode devolver tudo em 7 dias.'",
         "desc_conservadora": "Reconhece receita apenas após os 7 dias (Confirmação). Prudência máxima.",
@@ -81,7 +48,7 @@ dilemas = {
         "agressiva": {"resultado": +20, "risco": +25, "esg": -5, "tecnica": -15}
     },
     "fretes": {
-        "titulo": "6. Logística e Fretes (Custo ou Despesa?)",
+        "titulo": "3. Logística e Fretes (Custo ou Despesa?)",
         "contexto": "R$ 6.400 de frete na consignação recebida e R$ 4.500 no 'Prove em Casa'. Onde alocar esses custos?",
         "conflito": "Financeiro: 'Jogue no estoque para não cair o lucro do mês!' | Vitor: 'Nem todo frete é custo de aquisição.'",
         "desc_conservadora": "Lança 100% como despesa logística do período. Reduz o lucro imediato.",
@@ -94,7 +61,7 @@ dilemas = {
 }
 
 # =============================
-# CARTAS DE EVENTO (GAMIFICAÇÃO)
+# CARTAS DE EVENTO
 # =============================
 
 eventos_disponiveis = {
@@ -126,10 +93,16 @@ def iniciar():
     teams = {}
     dilemas_usados = []
     escolhas_temporarias = {}
-    nome1 = request.form["grupo1"]
-    nome2 = request.form["grupo2"]
-    teams["alpha"] = criar_time(nome1)
-    teams["beta"] = criar_time(nome2)
+    
+    nomes_grupos = request.form.getlist("nomes_grupos")
+    if not nomes_grupos:
+        nomes_grupos = ["Grupo Alpha", "Grupo Beta"]
+
+    for i, nome in enumerate(nomes_grupos):
+        if nome.strip():
+            t_key = f"time_{i}"
+            teams[t_key] = criar_time(nome)
+            
     return redirect(url_for("dashboard"))
 
 @app.route("/dashboard")
@@ -137,6 +110,7 @@ def dashboard():
     dilemas_disponiveis = {k: v for k, v in dilemas.items() if k not in dilemas_usados}
     jogo_encerrado = len(dilemas_disponiveis) == 0
     equipe_vencedora = max(teams.values(), key=lambda x: x["resultado"]) if teams else None
+    
     return render_template("dashboard.html", teams=teams, dilemas=dilemas_disponiveis, 
                            dilemas_usados=dilemas_usados, jogo_encerrado=jogo_encerrado, 
                            equipe_vencedora=equipe_vencedora)
@@ -147,20 +121,25 @@ def mostrar_dilema(id_dilema):
     return render_template("dilema.html", dilema=dilemas[id_dilema], id_dilema=id_dilema, 
                            teams=teams, votos_atuais=votos_atuais)
 
-@app.route("/registrar/<id_dilema>/<perfil>/<time>")
-def registrar(id_dilema, perfil, time):
+@app.route("/registrar/<id_dilema>/<perfil>/<time_key>")
+def registrar(id_dilema, perfil, time_key):
     global escolhas_temporarias
-    if id_dilema not in escolhas_temporarias: escolhas_temporarias[id_dilema] = {}
-    escolhas_temporarias[id_dilema][time] = perfil
+    if id_dilema not in escolhas_temporarias: 
+        escolhas_temporarias[id_dilema] = {}
+    
+    escolhas_temporarias[id_dilema][time_key] = perfil
 
-    if len(escolhas_temporarias[id_dilema]) == 2:
+    # Finaliza o dilema quando todos os grupos cadastrados votarem
+    if len(escolhas_temporarias[id_dilema]) == len(teams):
         for t_key, p_escolhido in escolhas_temporarias[id_dilema].items():
             impacto = dilemas[id_dilema][p_escolhido]
             for stat in ["resultado", "risco", "esg", "tecnica"]:
                 teams[t_key][stat] += impacto[stat]
+        
         dilemas_usados.append(id_dilema)
         del escolhas_temporarias[id_dilema]
         return redirect(url_for("dashboard"))
+        
     return redirect(url_for("mostrar_dilema", id_dilema=id_dilema))
 
 @app.route("/auditar/<time_key>")
