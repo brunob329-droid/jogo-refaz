@@ -1,8 +1,51 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
+    <meta charset="UTF-8">
     <title>Dashboard - Refaz</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        /* Ajuste para suportar muitos grupos em grid */
+        .painel-indicadores {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .card-time-dash {
+            border: 2px solid #1e293b;
+            transition: transform 0.2s;
+            position: relative;
+        }
+        /* Destaque para quem está ganhando */
+        .vencedor-atual {
+            border-color: #fbbf24 !important;
+            box-shadow: 0 0 15px rgba(251, 191, 36, 0.3);
+        }
+        .vencedor-tag {
+            position: absolute;
+            top: -10px;
+            right: 10px;
+            background: #fbbf24;
+            color: #000;
+            padding: 2px 8px;
+            font-size: 12px;
+            font-weight: bold;
+            border-radius: 4px;
+        }
+        .btn-auditoria {
+            display: block;
+            text-align: center;
+            background: #4b5563;
+            color: white;
+            text-decoration: none;
+            padding: 8px;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        .btn-auditoria:hover { background: #374151; }
+    </style>
 </head>
 <body>
 
@@ -10,58 +53,66 @@
 
 <div class="painel-indicadores">
     {% for key, time in teams.items() %}
-    <div class="card-time-dash">
+    <div class="card-time-dash {% if time == equipe_vencedora %}vencedor-atual{% endif %}">
+        {% if time == equipe_vencedora %}
+            <span class="vencedor-tag">🏆 Líder</span>
+        {% endif %}
+        
         <h2>{{ time.nome }}</h2>
         <div class="stats">
             <p>💰 Resultado: <strong>{{ time.resultado }}</strong></p>
-            <p>🛡 Risco: <strong>{{ time.risco }}</strong></p>
+            <p>🛡️ Risco: <strong>{{ time.risco }}</strong></p>
             <p>🌱 ESG: <strong>{{ time.esg }}</strong></p>
             <p>📊 Conformidade: <strong>{{ time.tecnica }}</strong></p>
-         </div>
+        </div>
         
         <hr>
         
         {% if time.auditorias_restantes > 0 %}
-            <a href="{{ url_for('auditar', time_key=key) }}" class="btn-auditoria" onclick="return confirm('Aplicar penalidade de auditoria?')">
+            <a href="{{ url_for('auditar', time_key=key) }}" class="btn-auditoria" onclick="return confirm('O grupo falhou na sustentação técnica? Aplicar penalidade de auditoria?')">
                 ⚠️ Auditar (Restam: {{ time.auditorias_restantes }})
             </a>
         {% else %}
-            <p><small style="color: #6B7280;">Auditorias esgotadas</small></p>
+            <p style="text-align: center;"><small style="color: #ef4444; font-weight: bold;">Auditorias esgotadas</small></p>
         {% endif %}
     </div>
     {% endfor %}
 </div>
 
-<hr style="margin: 40px 0; border: 0.5px solid #1E3A8A;">
+<hr style="margin: 40px 0; border: 0.5px solid #3b82f6; opacity: 0.3;">
 
-<h2>Dilemas Disponíveis</h2>
 <div class="painel-eventos" style="background: #0f172a; padding: 20px; border: 2px solid #3b82f6; border-radius: 12px; margin: 20px 0;">
-    <h3 style="color: #3b82f6; margin-bottom: 15px;">🃏 Painel de Eventos do Professor</h3>
-    <div style="display: flex; gap: 15px;">
-        <a href="/disparar_evento/fiscalizacao" class="btn-evento" style="background: #7f1d1d; color: #fecaca; padding: 12px; text-decoration: none; border-radius: 6px; flex: 1; text-align: center; font-weight: bold; border: 1px solid #ef4444;">
-            ⚠️ Ativar Fiscalização
+    <h3 style="color: #3b82f6; margin-bottom: 15px; text-align: center;">🃏 Painel de Eventos do Professor</h3>
+    <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+        <a href="/disparar_evento/fiscalizacao" class="btn-evento" style="background: #7f1d1d; color: #fecaca; padding: 12px; text-decoration: none; border-radius: 6px; flex: 1; text-align: center; font-weight: bold; border: 1px solid #ef4444; min-width: 200px;">
+            🚨 Ativar Fiscalização
         </a>
-        <a href="/disparar_evento/investidor" class="btn-evento" style="background: #064e3b; color: #d1fae5; padding: 12px; text-decoration: none; border-radius: 6px; flex: 1; text-align: center; font-weight: bold; border: 1px solid #10b981;">
+        <a href="/disparar_evento/investidor" class="btn-evento" style="background: #064e3b; color: #d1fae5; padding: 12px; text-decoration: none; border-radius: 6px; flex: 1; text-align: center; font-weight: bold; border: 1px solid #10b981; min-width: 200px;">
             💎 Ativar Investidor ESG
         </a>
     </div>
 </div>
-<div class="lista-dilemas">
+
+<h2>Dilemas Disponíveis</h2>
+<div class="lista-dilemas" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px;">
     {% for key, dilema in dilemas.items() %}
-        <div class="card-dilema-link">
-            <h3>{{ dilema.titulo }}</h3>
-            <a href="/dilema/{{ key }}" class="btn-resolver">Analisar Caso</a>
+        <div class="card-dilema-link" style="background: #1e293b; padding: 20px; border-radius: 8px; border-left: 5px solid #3b82f6;">
+            <h3 style="margin-top: 0;">{{ dilema.titulo }}</h3>
+            <p style="font-size: 14px; color: #94a3b8; margin-bottom: 15px;">{{ dilema.contexto[:80] }}...</p>
+            <a href="/dilema/{{ key }}" class="btn-resolver" style="background: #3b82f6; color: white; text-decoration: none; padding: 10px 15px; border-radius: 4px; display: inline-block; font-weight: bold;">Analisar Caso</a>
         </div>
     {% endfor %}
 </div>
 
 {% if jogo_encerrado %}
-<div class="modal-fim">
-    <div class="fim-conteudo">
-        <h2>🏁 Jogo Encerrado!</h2>
-        <p>A consultoria vencedora foi:</p>
-        <h1 style="color: #3B82F6;">{{ equipe_vencedora.nome }}</h1>
-        <a href="/reiniciar" class="btn-reiniciar" style="display: inline-block; padding: 10px 20px; background: #3B82F6; color: white; text-decoration: none; border-radius: 5px;">Nova Partida</a>
+<div class="modal-fim" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); display: flex; align-items: center; justify-content: center; z-index: 1000;">
+    <div class="fim-conteudo" style="background: #1e293b; padding: 40px; border-radius: 15px; text-align: center; border: 2px solid #3b82f6; max-width: 500px;">
+        <h2 style="font-size: 2rem;">🏁 Jogo Encerrado!</h2>
+        <p style="color: #94a3b8;">A consultoria que melhor equilibrou a técnica e o lucro foi:</p>
+        <h1 style="color: #fbbf24; font-size: 3rem; margin: 20px 0;">{{ equipe_vencedora.nome }}</h1>
+        <p>Pontuação Final: <strong>{{ equipe_vencedora.resultado }}</strong></p>
+        <br>
+        <a href="/reiniciar" class="btn-reiniciar" style="display: inline-block; padding: 15px 30px; background: #3B82F6; color: white; text-decoration: none; border-radius: 5px; font-weight: bold;">Nova Partida</a>
     </div>
 </div>
 {% endif %}
