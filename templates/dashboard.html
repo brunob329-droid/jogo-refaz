@@ -31,7 +31,6 @@
 
         .vencedor-atual { border-color: #fbbf24; box-shadow: 0 0 20px rgba(251, 191, 36, 0.2); }
 
-        /* Badge de Perfil */
         .perfil-badge {
             display: inline-block;
             padding: 4px 12px;
@@ -45,8 +44,8 @@
         .perfil-conservador { background: rgba(16, 185, 129, 0.2); color: var(--conservador); border: 1px solid var(--conservador); }
         .perfil-moderado { background: rgba(245, 158, 11, 0.2); color: var(--moderado); border: 1px solid var(--moderado); }
         .perfil-agressivo { background: rgba(239, 68, 68, 0.2); color: var(--agressivo); border: 1px solid var(--agressivo); }
+        .perfil-aguardando { background: rgba(148, 163, 184, 0.2); color: #94a3b8; border: 1px solid #94a3b8; }
 
-        /* Lista de Motivos */
         .secao-motivos {
             margin-top: 15px;
             padding-top: 15px;
@@ -54,6 +53,7 @@
             flex-grow: 1;
         }
         .secao-motivos h4 { font-size: 0.85rem; color: #94a3b8; margin-bottom: 8px; text-transform: uppercase; }
+        
         .lista-motivos {
             list-style: none;
             padding: 0;
@@ -76,10 +76,7 @@
         }
 
         .stats p { display: flex; justify-content: space-between; margin: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
-
-        /* Scrollbar customizada para os motivos */
-        .lista-motivos::-webkit-scrollbar { width: 4px; }
-        .lista-motivos::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+        .vencedor-tag { position: absolute; top: -10px; right: 10px; background: #fbbf24; color: #000; padding: 2px 10px; border-radius: 10px; font-weight: bold; font-size: 12px; }
     </style>
 </head>
 <body>
@@ -104,11 +101,11 @@
             <p><span>💰 Resultado:</span> <strong>{{ team.resultado }}</strong></p>
             <p><span>🛡️ Risco:</span> <strong>{{ team.risco }}</strong></p>
             <p><span>🌱 ESG:</span> <strong>{{ team.esg }}</strong></p>
-            <p><span>📊 Conformidade:</span> <strong>{{ team.tecnica }}</strong></p>
+            <p><span>📊 Técnica:</span> <strong>{{ team.tecnica }}</strong></p>
         </div>
 
         <div class="secao-motivos">
-            <h4>Justificativas:</h4>
+            <h4>Histórico de Decisões:</h4>
             <ul class="lista-motivos">
                 {% for motivo in team.motivos %}
                     <li>{{ motivo }}</li>
@@ -117,26 +114,13 @@
         </div>
         
         <div style="margin-top: 15px; display: flex; gap: 5px;">
-            <a href="/professor_ajuste/{{ key }}/bonus" style="flex: 1; background: #064e3b; color: #d1fae5; text-decoration: none; padding: 8px; border-radius: 4px; font-size: 12px; text-align: center; font-weight: bold; border: 1px solid #10b981;">
-                ✅ Bônus (+10)
+            <a href="/professor_ajuste/{{ key }}/bonus" style="flex: 1; background: #064e3b; color: #d1fae5; text-decoration: none; padding: 8px; border-radius: 4px; font-size: 11px; text-align: center; font-weight: bold; border: 1px solid #10b981;">
+                ✅ Bônus Técnica
             </a>
-            <a href="/professor_ajuste/{{ key }}/penalidade" style="flex: 1; background: #7f1d1d; color: #fecaca; text-decoration: none; padding: 8px; border-radius: 4px; font-size: 12px; text-align: center; font-weight: bold; border: 1px solid #ef4444;">
-                ❌ Ressalva (-10)
+            <a href="/professor_ajuste/{{ key }}/penalidade" style="flex: 1; background: #7f1d1d; color: #fecaca; text-decoration: none; padding: 8px; border-radius: 4px; font-size: 11px; text-align: center; font-weight: bold; border: 1px solid #ef4444;">
+                ❌ Ressalva Técnica
             </a>
         </div>
-    </div>
-    {% endfor %}
-</div>
-        
-        <hr style="border: 0; border-top: 1px solid #334155; margin: 15px 0;">
-        
-        {% if time.auditorias_restantes > 0 %}
-            <a href="{{ url_for('auditar', time_key=key) }}" class="btn-auditoria" onclick="return confirm('Aplicar penalidade de auditoria?')">
-                ⚠️ Auditar (Restam: {{ time.auditorias_restantes }})
-            </a>
-        {% else %}
-            <p style="text-align: center;"><small style="color: #ef4444; font-weight: bold;">Auditorias esgotadas</small></p>
-        {% endif %}
     </div>
     {% endfor %}
 </div>
@@ -144,43 +128,42 @@
 <div class="painel-eventos" style="background: #0f172a; padding: 20px; border: 2px solid #3b82f6; border-radius: 12px; margin: 40px 0;">
     <h3 style="color: #3b82f6; margin-bottom: 15px; text-align: center;">🃏 Painel de Eventos do Professor</h3>
     <div style="display: flex; gap: 15px; flex-wrap: wrap;">
-        <a href="/disparar_evento/fiscalizacao" class="btn-evento" style="background: #7f1d1d; color: #fecaca; padding: 12px; text-decoration: none; border-radius: 6px; flex: 1; text-align: center; font-weight: bold; border: 1px solid #ef4444; min-width: 200px;">
+        <a href="/disparar_evento/fiscalizacao" style="background: #7f1d1d; color: #fecaca; padding: 12px; text-decoration: none; border-radius: 6px; flex: 1; text-align: center; font-weight: bold; border: 1px solid #ef4444; min-width: 200px;">
             🚨 Ativar Fiscalização
         </a>
-        <a href="/disparar_evento/investidor" class="btn-evento" style="background: #064e3b; color: #d1fae5; padding: 12px; text-decoration: none; border-radius: 6px; flex: 1; text-align: center; font-weight: bold; border: 1px solid #10b981; min-width: 200px;">
+        <a href="/disparar_evento/investidor" style="background: #064e3b; color: #d1fae5; padding: 12px; text-decoration: none; border-radius: 6px; flex: 1; text-align: center; font-weight: bold; border: 1px solid #10b981; min-width: 200px;">
             💎 Ativar Investidor ESG
         </a>
     </div>
 </div>
 
-<h2>Dilemas Ativos</h2>
+<h2>Casos Disponíveis</h2>
 <div class="lista-dilemas" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; margin-bottom: 50px;">
     {% for key, dilema in dilemas.items() %}
         <div class="card-dilema-link" style="background: #1e293b; padding: 20px; border-radius: 8px; border-left: 5px solid #3b82f6;">
             <h3 style="margin-top: 0;">{{ dilema.titulo }}</h3>
-            <p style="font-size: 14px; color: #94a3b8; margin-bottom: 15px;">{{ dilema.contexto[:100] }}...</p>
-            <a href="/dilema/{{ key }}" class="btn-resolver" style="background: #3b82f6; color: white; text-decoration: none; padding: 10px 15px; border-radius: 4px; display: inline-block; font-weight: bold; width: 100%; text-align: center; box-sizing: border-box;">Analisar Caso</a>
+            <p style="font-size: 14px; color: #94a3b8; margin-bottom: 15px;">{{ dilema.contexto[:80] }}...</p>
+            <a href="/dilema/{{ key }}" style="background: #3b82f6; color: white; text-decoration: none; padding: 10px 15px; border-radius: 4px; display: inline-block; font-weight: bold; width: 100%; text-align: center; box-sizing: border-box;">Analisar Caso</a>
         </div>
     {% endfor %}
 </div>
 
 {% if jogo_encerrado %}
-<div class="modal-fim" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.95); display: flex; align-items: center; justify-content: center; z-index: 2000; overflow-y: auto; padding: 20px;">
-    <div class="fim-conteudo" style="background: #1e293b; padding: 40px; border-radius: 20px; text-align: center; border: 2px solid #fbbf24; max-width: 800px; width: 100%;">
-        <h2 style="font-size: 2.5rem; margin-bottom: 10px;">🏁 Relatório Final de Consultoria</h2>
-        <p style="color: #94a3b8; margin-bottom: 30px;">Análise de desempenho e perfil das bancas examinadas.</p>
+<div class="modal-fim" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.98); display: flex; align-items: center; justify-content: center; z-index: 2000; padding: 20px;">
+    <div class="fim-conteudo" style="background: #1e293b; padding: 40px; border-radius: 20px; text-align: center; border: 2px solid #fbbf24; max-width: 800px; width: 100%; max-height: 90vh; overflow-y: auto;">
+        <h2 style="font-size: 2rem; color: #fbbf24;">🏁 Resultado Final do Ciclo</h2>
         
-        <div style="background: rgba(251, 191, 36, 0.1); padding: 20px; border-radius: 12px; margin-bottom: 30px; border: 1px solid #fbbf24;">
-            <h3 style="color: #fbbf24; margin: 0;">🏆 Consultoria Vencedora</h3>
-            <h1 style="font-size: 3.5rem; margin: 10px 0;">{{ equipe_vencedora.nome }}</h1>
-            <p>Perfil Predominante: <strong>{{ equipe_vencedora.perfil_predominante }}</strong></p>
+        <div style="margin: 30px 0; padding: 20px; background: rgba(251, 191, 36, 0.1); border-radius: 15px;">
+            <h3 style="margin: 0; color: #94a3b8;">🥇 Consultoria Líder</h3>
+            <h1 style="font-size: 3rem; margin: 10px 0;">{{ equipe_vencedora.nome }}</h1>
+            <p style="font-size: 1.2rem;">Perfil Predominante: <strong>{{ equipe_vencedora.perfil_predominante }}</strong></p>
         </div>
 
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 30px;">
             {% for key, time in teams.items() %}
                 <div style="background: #0f172a; padding: 15px; border-radius: 8px; border: 1px solid #334155;">
                     <h4 style="margin: 0 0 10px 0;">{{ time.nome }}</h4>
-                    <div style="font-size: 0.9rem;">
+                    <div style="font-size: 0.9rem; text-align: left;">
                         💰 Lucro: {{ time.resultado }}<br>
                         📊 Técnica: {{ time.tecnica }}<br>
                         🎯 Perfil: {{ time.perfil_predominante }}
@@ -189,7 +172,7 @@
             {% endfor %}
         </div>
 
-        <a href="/reiniciar" class="btn-reiniciar" style="display: inline-block; padding: 18px 40px; background: #3B82F6; color: white; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 1.2rem; transition: background 0.2s;">Iniciar Novo Ciclo Contábil</a>
+        <a href="/reiniciar" style="display: inline-block; padding: 15px 30px; background: #3B82F6; color: white; text-decoration: none; border-radius: 8px; font-weight: bold;">Iniciar Novo Semestre</a>
     </div>
 </div>
 {% endif %}
