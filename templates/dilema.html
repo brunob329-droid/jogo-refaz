@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
     <style>
+
         /* ===== CRONÔMETRO ===== */
         .cronometro-box {
             text-align: center;
@@ -31,6 +32,21 @@
             background: #ef4444;
             width: 100%;
             transition: width 1s linear;
+        }
+
+        /* ===== CONTEXTO MAIS RICO ===== */
+        .card-contexto {
+            background: #0f172a;
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 5px solid #3b82f6;
+            margin-top: 20px;
+        }
+
+        .card-contexto p {
+            line-height: 1.7;
+            text-align: justify;
+            white-space: pre-line;
         }
 
         /* ===== CHAT ===== */
@@ -78,7 +94,7 @@
             background: #1e3a8a;
         }
 
-        /* ===== PERGUNTA ===== */
+        /* ===== PERGUNTA (MELHORADA) ===== */
         .pergunta-consultor {
             text-align: center;
             margin: 30px 0;
@@ -88,6 +104,15 @@
             border-radius: 10px;
         }
 
+        .pergunta-consultor h2 {
+            margin-bottom: 10px;
+        }
+
+        .pergunta-consultor p {
+            color: #cbd5e1;
+            font-size: 0.95rem;
+        }
+
         /* ===== OPÇÕES ===== */
         .bloco-opcao {
             background: #0f172a;
@@ -95,6 +120,17 @@
             padding: 20px;
             border-radius: 8px;
             margin-bottom: 15px;
+            transition: 0.2s;
+        }
+
+        .bloco-opcao:hover {
+            border-color: #3b82f6;
+            transform: scale(1.01);
+        }
+
+        .bloco-opcao p {
+            line-height: 1.6;
+            white-space: pre-line;
         }
 
         .btn-selecionar {
@@ -123,6 +159,7 @@
             margin-top: 20px;
             font-weight: bold;
         }
+
     </style>
 </head>
 
@@ -143,13 +180,13 @@
         </div>
     </div>
 
-    <!-- CONTEXTO -->
+    <!-- CONTEXTO COMPLETO -->
     <div class="card-contexto">
-        <h2>📚 Contexto Operacional</h2>
+        <h2>📚 Contexto Operacional e Contábil</h2>
         <p>{{ dilema.contexto }}</p>
     </div>
 
-    <!-- CHAT -->
+    <!-- CONFLITO (CHAT) -->
     <div class="chat-container">
         <div class="mensagem">
             <div class="avatar gestor">{{ dilema.avatar_1.nome[0] }}</div>
@@ -168,13 +205,18 @@
         </div>
     </div>
 
-    <!-- PERGUNTA -->
+    <!-- PERGUNTA MELHORADA -->
     <div class="pergunta-consultor">
-        <h2>Qual decisão técnica deve ser tomada?</h2>
+        <h2>👨‍💼 Você, como consultor contábil da Refaz, qual decisão tomaria?</h2>
+
+        <p>
+            Considere os princípios dos CPCs aplicáveis, a essência econômica da operação
+            e os impactos sobre o resultado, risco, transparência e confiabilidade das demonstrações financeiras.
+        </p>
 
         {% if dilema.tem_contabilizacao %}
         <div style="margin-top:15px; background:#7f1d1d; padding:10px; border-radius:6px;">
-            ⚠️ Exigido: demonstrar lançamentos contábeis (Débito/Crédito)
+            ⚠️ Sua decisão deverá ser sustentada por contabilização (Débito/Crédito), caso solicitado pelo professor.
         </div>
         {% endif %}
     </div>
@@ -188,7 +230,7 @@
 
             {% if key in votos_atuais %}
                 <div style="background:#064e3b; padding:10px; border-radius:6px;">
-                    ✅ Decisão registrada
+                    ✅ Decisão registrada — aguardando demais consultorias
                 </div>
             {% else %}
                 <div class="opcoes">
@@ -196,7 +238,7 @@
                     <div class="bloco-opcao opcao">
                         <p>{{ detalhes.texto }}</p>
                         <a href="/registrar/{{ id_dilema }}/{{ perfil }}/{{ key }}" class="btn-selecionar">
-                            Selecionar decisão
+                            Tomar esta decisão
                         </a>
                     </div>
                     {% endfor %}
@@ -209,7 +251,7 @@
 
     <!-- VOLTAR -->
     <div style="text-align:center; margin-top:30px;">
-        <a href="/dashboard">⬅ Voltar</a>
+        <a href="/dashboard">⬅ Voltar ao Painel</a>
     </div>
 
 </div>
@@ -218,7 +260,7 @@
 <script>
 
 let tempo = {{ tempo_restante }};
-let total = 600; // 10 min
+let total = 600;
 
 const elTempo = document.getElementById("tempo");
 const barra = document.getElementById("barra");
@@ -235,7 +277,7 @@ const timer = setInterval(() => {
 
         const aviso = document.createElement("div");
         aviso.className = "tempo-encerrado";
-        aviso.innerText = "⛔ Tempo encerrado. A decisão não pode mais ser alterada.";
+        aviso.innerText = "⛔ Tempo encerrado. As decisões foram bloqueadas.";
 
         document.querySelector(".container").appendChild(aviso);
 
