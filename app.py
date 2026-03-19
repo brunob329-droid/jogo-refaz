@@ -163,6 +163,20 @@ def dashboard():
     return render_template("dashboard.html", teams=teams, dilemas=dilemas_disponiveis, 
                            dilemas_usados=dilemas_usados, jogo_encerrado=jogo_encerrado, 
                            equipe_vencedora=equipe_vencedora)
+@app.route('/professor_ajuste/<time_key>/<tipo>')
+def professor_ajuste(time_key, tipo):
+    if time_key in teams:
+        if tipo == 'bonus':
+            teams[time_key]['resultado'] += 10
+            teams[time_key]['tecnica'] += 5
+            # Opcional: adicionar uma mensagem de log
+            teams[time_key]['motivos'].append("Bônus: Excelente sustentação técnica no quadro.")
+        elif tipo == 'penalidade':
+            teams[time_key]['resultado'] -= 10
+            teams[time_key]['tecnica'] -= 5
+            teams[time_key]['motivos'].append("Ressalva: Falha na demonstração de D/C no quadro.")
+            
+    return redirect(url_for('dashboard'))
 
 @app.route("/dilema/<id_dilema>")
 def mostrar_dilema(id_dilema):
