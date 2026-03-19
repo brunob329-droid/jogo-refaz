@@ -28,78 +28,77 @@ def criar_time(nome):
 dilemas = {
     "consignacao": {
         "titulo": "1. Consignação (Influenciadores e Parceiros)",
-        "contexto": "A Refaz recebeu 800 peças em consignação (R$ 80/un). A empresa fica com 60% na venda.",
-        "avatar_1": {"nome": "Daniela (CEO)", "fala": "Se lançarmos no Ativo, o estoque parece maior e atraímos investidores!"},
-        "avatar_2": {"nome": "Vitor (Contador)", "fala": "Mas não temos a propriedade. O CPC 00 exige controle e riscos para ser Ativo."},
+        "contexto": "A Refaz recebeu 800 peças em consignação (R$ 80/un). A empresa fica com 60% na venda. Segundo o CPC 00, o ativo exige controle e riscos. Como tratar essas peças e o envio de peças próprias para terceiros?",
+        "avatar_1": {"nome": "Daniela (CEO)", "fala": "Se lançarmos as 800 peças no Ativo, o estoque cresce e atraímos investidores com um patrimônio mais robusto!"},
+        "avatar_2": {"nome": "Vitor (Contador)", "fala": "Cuidado! O CPC 16 e o CPC 00 são claros: sem transferência de riscos e controle, não há Ativo. Isso pode inflar o balanço indevidamente."},
         "tem_contabilizacao": True,
         "opcoes": {
             "Conservador": {
-                "texto": "Não reconhecer no Ativo (controle extracontábil).",
-                "motivo": "Seguiu CPC 00: Essência sobre a forma e não inflou o Ativo indevidamente.",
+                "texto": "Manter controle extracontábil das peças recebidas. No envio de peças próprias a terceiros, manter no Ativo em conta segregada ('Estoque em poder de terceiros').",
+                "motivo": "Fiel ao CPC 00 e 16: Evitou inflar o Ativo com bens de terceiros e manteve a propriedade das peças enviadas, garantindo representação fidedigna.",
                 "impacto": {"resultado": 0, "risco": -5, "esg": +5, "tecnica": +15}
             },
             "Moderado": {
-                "texto": "Registrar em conta segregada com passivo correspondente.",
-                "motivo": "Buscou transparência, mas gerou registro de bens de terceiros no balanço patrimonial.",
+                "texto": "Registrar peças recebidas no Ativo com um Passivo compensatório. Reconhecer receita e repasse ao consignante apenas na venda final.",
+                "motivo": "Buscou transparência, mas gerou 'poluição' no balanço ao registrar ativos de terceiros, embora tenha acertado o momento da receita (CPC 47).",
                 "impacto": {"resultado": +5, "risco": +10, "esg": +5, "tecnica": 0}
             },
             "Agressivo": {
-                "texto": "Registrar como estoque próprio para inflar o balanço.",
-                "motivo": "Erro Técnico: Inflou o Ativo com ativos de terceiros para parecer maior ao mercado.",
+                "texto": "Registrar as 800 peças como Estoque Próprio imediatamente e reconhecer receita na remessa simples para terceiros.",
+                "motivo": "Erro Grave: Inflou o patrimônio indevidamente e antecipou receita sem transferência de controle, violando o CPC 47 e o CPC 16.",
                 "impacto": {"resultado": +25, "risco": +30, "esg": -10, "tecnica": -20}
             }
         }
     },
     "prove_em_casa": {
         "titulo": "2. Venda Condicional (Prove em Casa)",
-        "contexto": "300 peças enviadas; 180 confirmadas. O cliente tem 7 dias para devolver.",
-        "avatar_1": {"nome": "Renata (Operações)", "fala": "O produto saiu, já é faturamento!"},
-        "avatar_2": {"nome": "Vitor (Contador)", "fala": "O CPC 47 diz que sem transferência de controle, não há receita."},
+        "contexto": "300 peças enviadas (Custo R$ 22, Preço R$ 70). Apenas 180 confirmadas. O CPC 47 orienta que a receita só existe quando a obrigação de desempenho é cumprida (aceite do cliente).",
+        "avatar_1": {"nome": "Renata (Ops)", "fala": "O produto já saiu da prateleira! Precisamos bater a meta do mês, vamos registrar a venda total das 300 peças!"},
+        "avatar_2": {"nome": "Vitor (Contador)", "fala": "A transferência física não é transferência de controle. Reconhecer 300 unidades infla o lucro sem garantia de realização econômica."},
         "tem_contabilizacao": True,
         "opcoes": {
             "Conservador": {
-                "texto": "Reconhecer receita apenas das 180 peças confirmadas.",
-                "motivo": "Aplicou CPC 47: Só reconheceu receita após o aceite definitivo do cliente.",
+                "texto": "Reconhecer receita apenas das 180 peças confirmadas. As 120 restantes ficam em subconta 'Estoque em Teste'.",
+                "motivo": "Aplicação estrita do CPC 47: Receita apenas após o controle. Evitou a superavaliação do faturamento e preservou a prudência.",
                 "impacto": {"resultado": -10, "risco": -10, "esg": +5, "tecnica": +15}
             },
             "Moderado": {
-                "texto": "Reconhecer receita total com Provisão para Devoluções.",
-                "motivo": "Antecipou receita baseada em estimativa, assumindo risco de reversão.",
+                "texto": "Reconhecer a venda total, mas criar uma 'Provisão para Devoluções' baseada na estimativa de retorno das 120 peças.",
+                "motivo": "Uso de estimativa contábil (CPC 47). Embora aceitável, antecipa um resultado que ainda depende do prazo de 7 dias.",
                 "impacto": {"resultado": +5, "risco": +10, "esg": +5, "tecnica": +5}
             },
             "Agressivo": {
-                "texto": "Reconhecer receita total das 300 peças no envio.",
-                "motivo": "Infrou o faturamento sem garantir a transferência de controle do bem.",
+                "texto": "Reconhecer receita integral (300 unidades) no ato do envio, tratando como venda definitiva.",
+                "motivo": "Prática abusiva: Contraria o CPC 47 e a Estrutura Conceitual, apresentando uma imagem mais otimista do que a realidade.",
                 "impacto": {"resultado": +20, "risco": +25, "esg": -5, "tecnica": -15}
             }
         }
     },
     "fretes": {
-        "titulo": "3. Logística e Fretes (Custo ou Despesa?)",
-        "contexto": "Fretes de peças consignadas e de envio para clientes provarem.",
-        "avatar_1": {"nome": "Financeiro", "fala": "Jogue no custo do estoque para não derrubar o lucro agora!"},
-        "avatar_2": {"nome": "Vitor (Contador)", "fala": "Frete de venda e de itens de terceiros não é custo de aquisição (CPC 16)."},
-        "tem_contabilizacao": True,
+        "titulo": "3. Logística e Fretes Estratégicos",
+        "contexto": "R$ 6.400 de frete na consignação recebida e R$ 4.500 no 'prove em casa'. O CPC 16 permite capitalizar fretes apenas para colocar o bem em condição de venda.",
+        "avatar_1": {"nome": "Financeiro", "fala": "Esses gastos logísticos estão destruindo nossa margem! Vamos ativar tudo no estoque para recuperar isso no futuro!"},
+        "avatar_2": {"nome": "Vitor (Contador)", "fala": "Frete de venda (entrega) é despesa operacional. Capitalizar frete de itens que não são nossos (consignados) viola o CPC 16."},
+        "tem_contabilizacao": False,
         "opcoes": {
             "Conservador": {
-                "texto": "Lançar 100% como despesa de vendas no resultado.",
-                "motivo": "Prudência: Lançou gastos logísticos como despesa do período conforme o CPC 16.",
+                "texto": "Lançar todos os fretes de entrega e consignação recebida como Despesa com Vendas/Comercial no resultado.",
+                "motivo": "Conformidade com CPC 16: Frete de saída não é custo de estoque. Evitou capitalização indevida em ativos de terceiros.",
                 "impacto": {"resultado": -12, "risco": -5, "esg": +2, "tecnica": +10}
             },
             "Moderado": {
-                "texto": "Capitalizar frete da consignação e lançar venda como despesa.",
-                "motivo": "Capitalizou custo em itens que não compõem o estoque próprio da entidade.",
+                "texto": "Capitalizar o frete da consignação recebida no estoque (R$ 8/un) e lançar os fretes do 'prove em casa' como despesa.",
+                "motivo": "Capitalização incorreta: Ativou custos em bens de terceiros, contrariando a premissa de propriedade e controle.",
                 "impacto": {"resultado": -5, "risco": +5, "esg": +5, "tecnica": -5}
             },
             "Agressivo": {
-                "texto": "Ativar todos os fretes no Estoque (Ativo).",
-                "motivo": "Diferimento indevido de despesas para mascarar o resultado mensal.",
+                "texto": "Ativar 100% dos fretes (recebimento e entrega) no Ativo Circulante, diferindo a despesa para os meses seguintes.",
+                "motivo": "Maquiagem de resultado: Diferiu despesas operacionais como se fossem ativos, mascarando a baixa rentabilidade atual.",
                 "impacto": {"resultado": +15, "risco": +20, "esg": -5, "tecnica": -15}
             }
         }
     }
 }
-
 # =============================
 # ROTAS
 # =============================
