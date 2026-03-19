@@ -14,12 +14,11 @@ escolhas_temporarias = {}
 rodada_atual = 1
 TOTAL_DILEMAS = 3
 
-# ⏱️ CONTROLE DE TEMPO
 tempo_inicio_dilema = None
 TEMPO_LIMITE = 600  # 10 minutos
 
 # =============================
-# FUNÇÕES AUXILIARES
+# FUNÇÕES
 # =============================
 
 def criar_time(nome):
@@ -38,10 +37,6 @@ def criar_time(nome):
         }
     }
 
-# =============================
-# SCORE INTELIGENTE
-# =============================
-
 def calcular_score(t):
     return round(
         t["resultado"]
@@ -52,11 +47,85 @@ def calcular_score(t):
     )
 
 # =============================
-# DILEMAS (MANTIDOS)
+# DILEMAS (OBRIGATÓRIO ESTAR COMPLETO)
 # =============================
 
 dilemas = {
-    # ⚠️ MANTENHA SEU BLOCO COMPLETO AQUI (não alterado)
+
+    "consignacao": {
+        "titulo": "1. Consignação: Reconhecimento, Controle e Risco",
+        "contexto": "A Refaz recebeu 800 peças em consignação...",
+        "avatar_1": {"nome": "Daniela", "fala": "Registrar no ativo melhora percepção."},
+        "avatar_2": {"nome": "Vitor", "fala": "Sem controle, não há ativo."},
+        "tem_contabilizacao": True,
+        "opcoes": {
+            "Conservador": {
+                "texto": "Não reconhecer no ativo.",
+                "motivo": "Essência sobre forma.",
+                "impacto": {"resultado": 0, "risco": -5, "esg": 5, "tecnica": 15}
+            },
+            "Moderado": {
+                "texto": "Registrar com passivo.",
+                "motivo": "Transparência parcial.",
+                "impacto": {"resultado": 5, "risco": 10, "esg": 5, "tecnica": 0}
+            },
+            "Agressivo": {
+                "texto": "Registrar como estoque próprio.",
+                "motivo": "Superavaliação.",
+                "impacto": {"resultado": 25, "risco": 30, "esg": -10, "tecnica": -20}
+            }
+        }
+    },
+
+    "prove": {
+        "titulo": "2. Prove em Casa",
+        "contexto": "Clientes recebem peças e podem devolver.",
+        "avatar_1": {"nome": "Renata", "fala": "Saiu = vendeu."},
+        "avatar_2": {"nome": "Vitor", "fala": "Sem aceitação, não há receita."},
+        "tem_contabilizacao": True,
+        "opcoes": {
+            "Conservador": {
+                "texto": "Reconhecer só o vendido.",
+                "motivo": "Seguiu CPC 47.",
+                "impacto": {"resultado": -10, "risco": -10, "esg": 5, "tecnica": 15}
+            },
+            "Moderado": {
+                "texto": "Estimativa com provisão.",
+                "motivo": "Antecipação moderada.",
+                "impacto": {"resultado": 5, "risco": 10, "esg": 5, "tecnica": 5}
+            },
+            "Agressivo": {
+                "texto": "Reconhecer tudo.",
+                "motivo": "Antecipação indevida.",
+                "impacto": {"resultado": 20, "risco": 25, "esg": -5, "tecnica": -15}
+            }
+        }
+    },
+
+    "fretes": {
+        "titulo": "3. Fretes",
+        "contexto": "Custos logísticos relevantes.",
+        "avatar_1": {"nome": "Financeiro", "fala": "Impacta lucro."},
+        "avatar_2": {"nome": "Vitor", "fala": "Nem tudo é ativo."},
+        "tem_contabilizacao": False,
+        "opcoes": {
+            "Conservador": {
+                "texto": "Despesa.",
+                "motivo": "Evita distorção.",
+                "impacto": {"resultado": -12, "risco": -5, "esg": 2, "tecnica": 10}
+            },
+            "Moderado": {
+                "texto": "Capitalizar parcialmente.",
+                "motivo": "Erro leve.",
+                "impacto": {"resultado": -5, "risco": 5, "esg": 5, "tecnica": -5}
+            },
+            "Agressivo": {
+                "texto": "Ativar tudo.",
+                "motivo": "Manipulação.",
+                "impacto": {"resultado": 15, "risco": 20, "esg": -5, "tecnica": -15}
+            }
+        }
+    }
 }
 
 # =============================
@@ -92,6 +161,10 @@ def iniciar():
 
 @app.route("/dashboard")
 def dashboard():
+
+    if not teams:
+        return redirect(url_for("index"))
+
     dilemas_disp = {k: v for k, v in dilemas.items() if k not in dilemas_usados}
     jogo_encerrado = len(dilemas_disp) == 0
 
@@ -99,14 +172,14 @@ def dashboard():
         t["score"] = calcular_score(t)
 
         if sum(t["perfil_contagem"].values()) > 0:
-            t["perfil_predominante"] = max(
-                t["perfil_contagem"],
-                key=t["perfil_contagem"].get
-            )
+            t["perfil_predominante"] = max(t["perfil_contagem"], key=t["perfil_contagem"].get)
         else:
             t["perfil_predominante"] = "Aguardando"
 
-    equipe_venc = max(teams.values(), key=lambda x: x["score"]) if teams else None
+    # 🚫 NÃO MOSTRA LÍDER NO INÍCIO
+    equipe_venc = None
+    if any(t["historico"] for t in teams.values()):
+        equipe_venc = max(teams.values(), key=lambda x: x["score"])
 
     return render_template(
         "dashboard.html",
@@ -118,10 +191,6 @@ def dashboard():
         total_rodadas=TOTAL_DILEMAS
     )
 
-
-# =============================
-# DILEMA COM CRONÔMETRO
-# =============================
 
 @app.route("/dilema/<id_dilema>")
 def mostrar_dilema(id_dilema):
@@ -145,18 +214,12 @@ def mostrar_dilema(id_dilema):
     )
 
 
-# =============================
-# REGISTRO COM BLOQUEIO DE TEMPO
-# =============================
-
 @app.route("/registrar/<id_dilema>/<perfil>/<time_key>")
 def registrar(id_dilema, perfil, time_key):
     global escolhas_temporarias, rodada_atual, tempo_inicio_dilema
 
-    # 🚨 BLOQUEIO POR TEMPO
     if tempo_inicio_dilema:
-        tempo_passado = time.time() - tempo_inicio_dilema
-        if tempo_passado > TEMPO_LIMITE:
+        if time.time() - tempo_inicio_dilema > TEMPO_LIMITE:
             return redirect(url_for("mostrar_dilema", id_dilema=id_dilema))
 
     if id_dilema not in escolhas_temporarias:
@@ -164,7 +227,6 @@ def registrar(id_dilema, perfil, time_key):
 
     escolhas_temporarias[id_dilema][time_key] = perfil
 
-    # TODOS VOTARAM
     if len(escolhas_temporarias[id_dilema]) == len(teams):
 
         for t_k, p_esc in escolhas_temporarias[id_dilema].items():
@@ -178,7 +240,6 @@ def registrar(id_dilema, perfil, time_key):
             teams[t_k]["historico"].append({
                 "rodada": rodada_atual,
                 "perfil": p_esc,
-                "decisao": dados["texto"],
                 "motivo": dados["motivo"]
             })
 
@@ -187,9 +248,9 @@ def registrar(id_dilema, perfil, time_key):
         dilemas_usados.append(id_dilema)
         del escolhas_temporarias[id_dilema]
 
-        rodada_atual += 1
+        if rodada_atual < TOTAL_DILEMAS:
+            rodada_atual += 1
 
-        # 🔄 RESET DO TEMPO PARA PRÓXIMO DILEMA
         tempo_inicio_dilema = None
 
         return redirect(url_for("dashboard"))
@@ -197,31 +258,6 @@ def registrar(id_dilema, perfil, time_key):
     return redirect(url_for("mostrar_dilema", id_dilema=id_dilema))
 
 
-# =============================
-# AJUSTE DO PROFESSOR
-# =============================
-
-@app.route("/ajuste/<time_key>/<tipo>")
-def ajuste(time_key, tipo):
-
-    if time_key in teams:
-
-        if tipo == "bonus":
-            teams[time_key]["resultado"] += 10
-            teams[time_key]["tecnica"] += 10
-            teams[time_key]["motivos"].append(
-                "Bônus do professor: excelente fundamentação contábil."
-            )
-
-        elif tipo == "penalidade":
-            teams[time_key]["resultado"] -= 10
-            teams[time_key]["tecnica"] -= 10
-            teams[time_key]["motivos"].append(
-                "Penalidade do professor: falha na sustentação técnica."
-            )
-
-    return redirect(url_for("dashboard"))
-    
 @app.route("/resultado_final")
 def resultado_final():
 
@@ -229,26 +265,15 @@ def resultado_final():
         t["score"] = calcular_score(t)
 
         if sum(t["perfil_contagem"].values()) > 0:
-            t["perfil_predominante"] = max(
-                t["perfil_contagem"],
-                key=t["perfil_contagem"].get
-            )
+            t["perfil_predominante"] = max(t["perfil_contagem"], key=t["perfil_contagem"].get)
         else:
             t["perfil_predominante"] = "Indefinido"
 
     ranking = sorted(teams.values(), key=lambda x: x["score"], reverse=True)
     vencedor = ranking[0] if ranking else None
 
-    return render_template(
-        "final.html",
-        ranking=ranking,
-        vencedor=vencedor
-    )
+    return render_template("final.html", ranking=ranking, vencedor=vencedor)
 
-
-# =============================
-# RESET
-# =============================
 
 @app.route("/reiniciar")
 def reiniciar():
@@ -262,10 +287,6 @@ def reiniciar():
 
     return redirect(url_for("index"))
 
-
-# =============================
-# EXECUÇÃO
-# =============================
 
 if __name__ == "__main__":
     app.run(debug=True)
