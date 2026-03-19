@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Resultado Final - Refaz</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+<style>
+
+.container-final {
+    max-width: 1200px;
+    margin: auto;
+    padding: 30px;
+}
+
+.titulo-final {
+    text-align: center;
+    font-size: 2.2rem;
+    color: #fbbf24;
+    margin-bottom: 20px;
+}
+
+.vencedor-box {
+    background: #1e293b;
+    border: 2px solid #fbbf24;
+    padding: 25px;
+    border-radius: 12px;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.score {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.grid-times {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.card-time {
+    background: #0f172a;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #334155;
+}
+
+.barra {
+    height: 10px;
+    background: #334155;
+    border-radius: 5px;
+    margin: 5px 0 15px 0;
+}
+
+.progresso {
+    height: 100%;
+    border-radius: 5px;
+}
+
+.resultado { background: #3b82f6; }
+.risco { background: #ef4444; }
+.esg { background: #10b981; }
+.tecnica { background: #f59e0b; }
+
+.lista-decisao {
+    font-size: 0.9rem;
+    margin-top: 10px;
+}
+
+.parecer {
+    margin-top: 20px;
+    padding: 15px;
+    background: #1e293b;
+    border-left: 4px solid #3b82f6;
+    border-radius: 6px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container-final">
+
+<h1 class="titulo-final">🏁 Encerramento da Simulação Contábil</h1>
+
+<!-- VENCEDOR -->
+<div class="vencedor-box">
+    <h2>🏆 Consultoria Vencedora</h2>
+    <h1>{{ vencedora.nome }}</h1>
+    <p>Perfil Estratégico: <strong>{{ vencedora.perfil_predominante }}</strong></p>
+    <div class="score">Score Final: {{ vencedora.score }}</div>
+</div>
+
+<!-- TODOS OS TIMES -->
+<div class="grid-times">
+
+{% for t in teams %}
+
+<div class="card-time">
+
+    <h2>{{ t.nome }}</h2>
+    <p><strong>Perfil:</strong> {{ t.perfil_predominante }}</p>
+    <p><strong>Score:</strong> {{ t.score }}</p>
+
+    <!-- BARRAS -->
+    <p>💰 Resultado: {{ t.resultado }}</p>
+    <div class="barra"><div class="progresso resultado" style="width: {{ t.resultado }}%"></div></div>
+
+    <p>🛡️ Risco: {{ t.risco }}</p>
+    <div class="barra"><div class="progresso risco" style="width: {{ t.risco }}%"></div></div>
+
+    <p>🌱 ESG: {{ t.esg }}</p>
+    <div class="barra"><div class="progresso esg" style="width: {{ t.esg }}%"></div></div>
+
+    <p>📊 Técnica: {{ t.tecnica }}</p>
+    <div class="barra"><div class="progresso tecnica" style="width: {{ t.tecnica }}%"></div></div>
+
+    <!-- HISTÓRICO -->
+    <div class="lista-decisao">
+        <h4>📚 Decisões:</h4>
+        <ul>
+            {% for h in t.historico %}
+            <li>
+                Rodada {{ h.rodada }} — <strong>{{ h.perfil }}</strong><br>
+                {{ h.motivo }}
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- PARECER AUTOMÁTICO -->
+    <div class="parecer">
+        <strong>Parecer Final:</strong><br>
+        {{ t.parecer }}
+    </div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+<div style="text-align:center; margin-top:30px;">
+    <a href="/reiniciar" style="background:#3b82f6; padding:12px 20px; color:white; text-decoration:none; border-radius:6px;">
+        🔄 Nova Simulação
+    </a>
+</div>
+
+</div>
+
+</body>
+</html>
