@@ -87,36 +87,46 @@
 <h1>Refaz – Gestão Contábil Estratégica</h1>
 
 <div class="painel-indicadores">
-    {% for key, time in teams.items() %}
-    <div class="card-time-dash {% if time == equipe_vencedora %}vencedor-atual{% endif %}">
+    {% for key, team in teams.items() %}
+    <div class="card-time-dash {% if team == equipe_vencedora %}vencedor-atual{% endif %}">
         
-        <div class="perfil-badge perfil-{{ time.perfil_predominante|lower }}">
-            Perfil: {{ time.perfil_predominante }}
+        <div class="perfil-badge perfil-{{ team.perfil_predominante|lower }}">
+            Perfil: {{ team.perfil_predominante }}
         </div>
 
-        {% if time == equipe_vencedora %}
+        {% if team == equipe_vencedora %}
             <span class="vencedor-tag">🏆 Líder</span>
         {% endif %}
         
-        <h2 style="margin-top: 0;">{{ time.nome }}</h2>
+        <h2 style="margin-top: 0;">{{ team.nome }}</h2>
         
         <div class="stats">
-            <p><span>💰 Resultado:</span> <strong>{{ time.resultado }}</strong></p>
-            <p><span>🛡️ Risco:</span> <strong>{{ time.risco }}</strong></p>
-            <p><span>🌱 ESG:</span> <strong>{{ time.esg }}</strong></p>
-            <p><span>📊 Conformidade:</span> <strong>{{ time.tecnica }}</strong></p>
+            <p><span>💰 Resultado:</span> <strong>{{ team.resultado }}</strong></p>
+            <p><span>🛡️ Risco:</span> <strong>{{ team.risco }}</strong></p>
+            <p><span>🌱 ESG:</span> <strong>{{ team.esg }}</strong></p>
+            <p><span>📊 Conformidade:</span> <strong>{{ team.tecnica }}</strong></p>
         </div>
 
         <div class="secao-motivos">
-            <h4>Justificativas Adotadas:</h4>
+            <h4>Justificativas:</h4>
             <ul class="lista-motivos">
-                {% for motivo in time.motivos %}
+                {% for motivo in team.motivos %}
                     <li>{{ motivo }}</li>
-                {% else %}
-                    <li style="font-style: italic; color: #64748b;">Nenhuma decisão tomada ainda.</li>
                 {% endfor %}
             </ul>
         </div>
+        
+        <div style="margin-top: 15px; display: flex; gap: 5px;">
+            <a href="/professor_ajuste/{{ key }}/bonus" style="flex: 1; background: #064e3b; color: #d1fae5; text-decoration: none; padding: 8px; border-radius: 4px; font-size: 12px; text-align: center; font-weight: bold; border: 1px solid #10b981;">
+                ✅ Bônus (+10)
+            </a>
+            <a href="/professor_ajuste/{{ key }}/penalidade" style="flex: 1; background: #7f1d1d; color: #fecaca; text-decoration: none; padding: 8px; border-radius: 4px; font-size: 12px; text-align: center; font-weight: bold; border: 1px solid #ef4444;">
+                ❌ Ressalva (-10)
+            </a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
         
         <hr style="border: 0; border-top: 1px solid #334155; margin: 15px 0;">
         
