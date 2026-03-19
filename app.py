@@ -221,6 +221,29 @@ def ajuste(time_key, tipo):
             )
 
     return redirect(url_for("dashboard"))
+    
+@app.route("/resultado_final")
+def resultado_final():
+
+    for t in teams.values():
+        t["score"] = calcular_score(t)
+
+        if sum(t["perfil_contagem"].values()) > 0:
+            t["perfil_predominante"] = max(
+                t["perfil_contagem"],
+                key=t["perfil_contagem"].get
+            )
+        else:
+            t["perfil_predominante"] = "Indefinido"
+
+    ranking = sorted(teams.values(), key=lambda x: x["score"], reverse=True)
+    vencedor = ranking[0] if ranking else None
+
+    return render_template(
+        "final.html",
+        ranking=ranking,
+        vencedor=vencedor
+    )
 
 
 # =============================
