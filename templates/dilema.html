@@ -4,122 +4,253 @@
     <meta charset="UTF-8">
     <title>{{ dilema.titulo }} - Refaz</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
     <style>
-        /* Estilos para o embate com avatares (estilo chat) */
-        .chat-container { display: flex; flex-direction: column; gap: 15px; margin: 25px 0; }
-        .mensagem { display: flex; gap: 15px; align-items: flex-start; }
-        .mensagem.vitor { flex-direction: row-reverse; }
-        
-        .avatar { 
-            width: 50px; height: 50px; border-radius: 50%; background: #3b82f6; 
-            color: white; display: flex; align-items: center; justify-content: center; 
-            font-weight: bold; font-size: 1.5em; flex-shrink: 0; box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-        }
-        .avatar.gestor { background: #eab308; } /* Cor para Daniela/Renata/Financeiro */
-        
-        .balao { 
-            background: #1e293b; padding: 15px; border-radius: 12px; 
-            border: 1px solid #334155; position: relative; max-width: 80%; font-style: italic;
-        }
-        .mensagem.vitor .balao { background: #1e3a8a; border-color: #3b82f6; }
-        .nome-avatar { font-size: 0.85em; color: #94a3b8; margin-bottom: 5px; font-weight: bold; display: block; font-style: normal; text-transform: uppercase;}
-
-        /* Estilo para a pergunta central e aviso de contabilização */
-        .pergunta-consultor { 
-            text-align: center; margin: 30px 0; padding: 25px; 
-            background: #1e293b; border: 2px solid #f87171; border-radius: 10px; box-shadow: 0 0 15px rgba(248, 113, 113, 0.2);
-        }
-        .pergunta-consultor h2 { color: #f87171; margin-top: 0; font-size: 1.6em; }
-        
-        .alerta-contabilizacao { 
-            background: #7f1d1d; color: #fecaca; padding: 15px; border-radius: 5px; 
-            margin-top: 15px; font-weight: bold; font-size: 1.1em; border: 1px dashed #ef4444;
-            animation: piscar 2s infinite;
+        /* ===== CRONÔMETRO ===== */
+        .cronometro-box {
+            text-align: center;
+            margin: 20px 0;
         }
 
-        /* Estilo das opções de resposta ocultando o nome do perfil */
-        .bloco-opcao { 
-            background: #0f172a; border: 1px solid #334155; padding: 20px; 
-            border-radius: 8px; margin-bottom: 15px; transition: transform 0.2s;
+        .cronometro {
+            font-size: 2em;
+            font-weight: bold;
+            color: #f87171;
         }
-        .bloco-opcao:hover { transform: scale(1.02); border-color: #3b82f6; }
-        .bloco-opcao p { margin-top: 0; margin-bottom: 20px; font-size: 1.1em; line-height: 1.5; color: #f8fafc; }
-        .btn-selecionar { 
-            background: #3b82f6; color: white; padding: 12px 20px; text-decoration: none; 
-            border-radius: 5px; display: block; font-weight: bold; text-align: center; width: 100%; box-sizing: border-box;
-        }
-        .btn-selecionar:hover { background: #2563eb; }
 
-        @keyframes piscar {
-            0% { box-shadow: 0 0 0px rgba(239, 68, 68, 0); }
-            50% { box-shadow: 0 0 10px rgba(239, 68, 68, 0.8); }
-            100% { box-shadow: 0 0 0px rgba(239, 68, 68, 0); }
+        .barra-tempo {
+            height: 10px;
+            background: #334155;
+            border-radius: 5px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        .barra-progresso {
+            height: 100%;
+            background: #ef4444;
+            width: 100%;
+            transition: width 1s linear;
+        }
+
+        /* ===== CHAT ===== */
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .mensagem {
+            display: flex;
+            gap: 15px;
+        }
+
+        .mensagem.vitor {
+            flex-direction: row-reverse;
+        }
+
+        .avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #3b82f6;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .avatar.gestor {
+            background: #eab308;
+        }
+
+        .balao {
+            background: #1e293b;
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid #334155;
+            max-width: 80%;
+        }
+
+        .mensagem.vitor .balao {
+            background: #1e3a8a;
+        }
+
+        /* ===== PERGUNTA ===== */
+        .pergunta-consultor {
+            text-align: center;
+            margin: 30px 0;
+            padding: 25px;
+            background: #1e293b;
+            border: 2px solid #f87171;
+            border-radius: 10px;
+        }
+
+        /* ===== OPÇÕES ===== */
+        .bloco-opcao {
+            background: #0f172a;
+            border: 1px solid #334155;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .btn-selecionar {
+            background: #3b82f6;
+            color: white;
+            padding: 12px;
+            text-align: center;
+            display: block;
+            border-radius: 5px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .bloqueado {
+            pointer-events: none;
+            opacity: 0.4;
+        }
+
+        /* ALERTA FINAL */
+        .tempo-encerrado {
+            background: #7f1d1d;
+            color: #fecaca;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 20px;
+            font-weight: bold;
         }
     </style>
 </head>
+
 <body>
+
 <div class="container">
+
     <h1>{{ dilema.titulo }}</h1>
-    
+
+    <!-- CRONÔMETRO -->
+    <div class="cronometro-box">
+        <div class="cronometro">
+            ⏳ Tempo restante: <span id="tempo">{{ tempo_restante }}</span>s
+        </div>
+
+        <div class="barra-tempo">
+            <div id="barra" class="barra-progresso"></div>
+        </div>
+    </div>
+
+    <!-- CONTEXTO -->
     <div class="card-contexto">
         <h2>📚 Contexto Operacional</h2>
         <p>{{ dilema.contexto }}</p>
     </div>
 
+    <!-- CHAT -->
     <div class="chat-container">
         <div class="mensagem">
             <div class="avatar gestor">{{ dilema.avatar_1.nome[0] }}</div>
             <div class="balao">
-                <span class="nome-avatar">{{ dilema.avatar_1.nome }}</span>
+                <strong>{{ dilema.avatar_1.nome }}</strong><br>
                 "{{ dilema.avatar_1.fala }}"
             </div>
         </div>
+
         <div class="mensagem vitor">
             <div class="avatar">V</div>
             <div class="balao">
-                <span class="nome-avatar">{{ dilema.avatar_2.nome }}</span>
+                <strong>{{ dilema.avatar_2.nome }}</strong><br>
                 "{{ dilema.avatar_2.fala }}"
             </div>
         </div>
     </div>
 
+    <!-- PERGUNTA -->
     <div class="pergunta-consultor">
-        <h2>👨‍💼 E você, consultor contábil desta empresa, qual decisão tomaria?</h2>
-        
+        <h2>Qual decisão técnica deve ser tomada?</h2>
+
         {% if dilema.tem_contabilizacao %}
-            <div class="alerta-contabilizacao">
-                ⚠️ ATENÇÃO: Para sustentar a opção escolhida, o grupo deverá registrar a CONTABILIZAÇÃO (lançamentos de Débito e Crédito) na folha de rascunho, devendo estar preparado para demonstrá-la ao professor, caso solicitado.
-            </div>
+        <div style="margin-top:15px; background:#7f1d1d; padding:10px; border-radius:6px;">
+            ⚠️ Exigido: demonstrar lançamentos contábeis (Débito/Crédito)
+        </div>
         {% endif %}
     </div>
 
+    <!-- DECISÕES -->
     <div class="painel-decisao">
         {% for key, team in teams.items() %}
         <div class="card-time">
+
             <h3>{{ team.nome }}</h3>
-            
+
             {% if key in votos_atuais %}
-                <div class="status-voto ok" style="background: #064e3b; padding: 15px; border-radius: 8px; text-align: center; border: 1px solid #10b981;">
-                    <span style="font-size: 1.2em; font-weight: bold; color: #34d399;">✅ Decisão Registrada!</span>
-                    <p style="color: #a7f3d0; margin-top: 5px;"><small>Aguardando os outros grupos...</small></p>
+                <div style="background:#064e3b; padding:10px; border-radius:6px;">
+                    ✅ Decisão registrada
                 </div>
             {% else %}
                 <div class="opcoes">
                     {% for perfil, detalhes in dilema.opcoes.items() %}
-                    <div class="bloco-opcao">
+                    <div class="bloco-opcao opcao">
                         <p>{{ detalhes.texto }}</p>
-                        <a href="/registrar/{{ id_dilema }}/{{ perfil }}/{{ key }}" class="btn-selecionar">Tomar esta decisão técnica</a>
+                        <a href="/registrar/{{ id_dilema }}/{{ perfil }}/{{ key }}" class="btn-selecionar">
+                            Selecionar decisão
+                        </a>
                     </div>
                     {% endfor %}
                 </div>
             {% endif %}
+
         </div>
         {% endfor %}
     </div>
 
-    <div style="text-align: center; margin-top: 30px;">
-        <a href="/dashboard" class="link-voltar" style="color: #94a3b8; text-decoration: none;">⬅ Voltar ao Painel Principal</a>
+    <!-- VOLTAR -->
+    <div style="text-align:center; margin-top:30px;">
+        <a href="/dashboard">⬅ Voltar</a>
     </div>
+
 </div>
+
+<!-- SCRIPT CRONÔMETRO -->
+<script>
+
+let tempo = {{ tempo_restante }};
+let total = 600; // 10 min
+
+const elTempo = document.getElementById("tempo");
+const barra = document.getElementById("barra");
+
+const timer = setInterval(() => {
+
+    if (tempo <= 0) {
+
+        clearInterval(timer);
+
+        document.querySelectorAll(".btn-selecionar").forEach(btn => {
+            btn.classList.add("bloqueado");
+        });
+
+        const aviso = document.createElement("div");
+        aviso.className = "tempo-encerrado";
+        aviso.innerText = "⛔ Tempo encerrado. A decisão não pode mais ser alterada.";
+
+        document.querySelector(".container").appendChild(aviso);
+
+        return;
+    }
+
+    tempo--;
+    elTempo.innerText = tempo;
+
+    let porcentagem = (tempo / total) * 100;
+    barra.style.width = porcentagem + "%";
+
+}, 1000);
+
+</script>
+
 </body>
 </html>
