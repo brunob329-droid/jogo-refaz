@@ -52,6 +52,7 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 15px;
+            margin-top: 15px;
         }
 
         .impacto-card {
@@ -80,23 +81,33 @@
             gap: 5px;
         }
 
-        input {
+        input[type="text"] {
             flex: 1;
             padding: 12px;
             border-radius: 6px;
             border: 1px solid #334155;
             background: #020617;
             color: white;
+            outline: none;
+        }
+
+        input[type="text"]:focus {
+            border-color: #3b82f6;
         }
 
         .btn-adicionar {
             background: #16a34a;
-            padding: 10px;
+            padding: 10px 14px;
             border-radius: 6px;
             color: white;
             font-weight: bold;
             cursor: pointer;
             margin-top: 10px;
+            border: none;
+        }
+
+        .btn-adicionar:hover {
+            background: #15803d;
         }
 
         .btn-remover {
@@ -106,6 +117,11 @@
             padding: 0 10px;
             border-radius: 5px;
             cursor: pointer;
+            font-weight: bold;
+        }
+
+        .btn-remover:hover {
+            background: #b91c1c;
         }
 
         .btn-iniciar-jogo {
@@ -122,12 +138,16 @@
             box-shadow: 0 0 15px rgba(59,130,246,0.5);
         }
 
+        .btn-iniciar-jogo:hover {
+            background: linear-gradient(90deg, #2563eb, #1d4ed8);
+        }
+
         .contador {
             text-align: right;
             font-size: 13px;
             color: #94a3b8;
+            margin-top: 8px;
         }
-
     </style>
 </head>
 
@@ -172,11 +192,11 @@
     <div class="quadro">
         <h2>⏱️ Regras da Dinâmica</h2>
         <p>
-            • Cada dilema representa uma situação real de julgamento contábil envolvendo incerteza, estimativas e interpretação normativa.  
-            • Os grupos terão tempo limitado para analisar o cenário e definir uma decisão técnica.  
-            • A decisão deve ser sustentada com base nos conceitos dos CPCs aplicáveis (especialmente CPC 00, CPC 16 e CPC 47).  
-            • O professor poderá solicitar a demonstração da contabilização (lançamentos de débito e crédito).  
-            • Decisões sem fundamentação técnica adequada podem resultar em penalidades.  
+            • Cada dilema representa uma situação real de julgamento contábil envolvendo incerteza, estimativas e interpretação normativa.<br>
+            • Os grupos terão tempo limitado para analisar o cenário e definir uma decisão técnica.<br>
+            • A decisão deve ser sustentada com base nos conceitos dos CPCs aplicáveis (especialmente CPC 00, CPC 16 e CPC 47).<br>
+            • O professor poderá solicitar a demonstração da contabilização (lançamentos de débito e crédito).<br>
+            • Decisões sem fundamentação técnica adequada podem resultar em penalidades.
         </p>
     </div>
 
@@ -187,11 +207,11 @@
             <div id="container-grupos" class="input-group">
 
                 <div class="input-dinamico">
-                    <input type="text" name="nomes_groups" placeholder="Consultoria 1" required>
+                    <input type="text" name="nomes_grupos" placeholder="Consultoria 1" required>
                 </div>
 
                 <div class="input-dinamico">
-                    <input type="text" name="nomes_groups" placeholder="Consultoria 2" required>
+                    <input type="text" name="nomes_grupos" placeholder="Consultoria 2" required>
                 </div>
 
             </div>
@@ -219,7 +239,7 @@ function addGrupo() {
     div.className = 'input-dinamico';
 
     div.innerHTML = `
-        <input type="text" name="nomes_groups" placeholder="Consultoria ${total}" required>
+        <input type="text" name="nomes_grupos" placeholder="Consultoria ${total}" required>
         <button type="button" class="btn-remover" onclick="removerGrupo(this)">✕</button>
     `;
 
