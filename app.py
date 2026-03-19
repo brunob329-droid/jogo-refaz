@@ -54,80 +54,212 @@ dilemas = {
 
     "consignacao": {
         "titulo": "1. Consignação: Reconhecimento, Controle e Risco",
-        "contexto": "A Refaz recebeu 800 peças em consignação...",
-        "avatar_1": {"nome": "Daniela", "fala": "Registrar no ativo melhora percepção."},
-        "avatar_2": {"nome": "Vitor", "fala": "Sem controle, não há ativo."},
+
+        "contexto": """
+A Refaz recebeu 800 peças em consignação de parceiros (brechós e influenciadores), com preço médio estimado de R$ 80 por unidade.
+
+Pelo contrato, 60% do valor da venda pertence à Refaz e 40% ao consignante, sendo o repasse realizado somente após a venda ao consumidor final.
+
+Apesar de estarem fisicamente no estoque da empresa, essas peças não pertencem juridicamente à Refaz. Ainda assim, a diretoria avalia registrá-las no ativo para demonstrar maior volume operacional e melhorar indicadores perante investidores.
+
+Simultaneamente, a empresa também envia peças próprias para venda por terceiros, o que levanta dúvidas adicionais sobre controle, reconhecimento e evidenciação.
+
+O dilema central envolve:
+• O conceito de controle econômico (CPC 00)  
+• O reconhecimento de ativos  
+• O risco de superavaliação patrimonial  
+• A necessidade de transparência nas demonstrações  
+        """,
+
+        "avatar_1": {
+            "nome": "Daniela (CEO)",
+            "fala": "Se registrarmos essas peças no ativo, mostramos crescimento e ganhamos força com investidores."
+        },
+
+        "avatar_2": {
+            "nome": "Vitor (Contador)",
+            "fala": "Sem controle econômico real, isso pode distorcer completamente o balanço."
+        },
+
         "tem_contabilizacao": True,
+
         "opcoes": {
+
             "Conservador": {
-                "texto": "Não reconhecer no ativo.",
-                "motivo": "Essência sobre forma.",
+                "texto": """
+Não reconhecer as peças consignadas no ativo, mantendo controle extracontábil e divulgação em notas explicativas.
+
+Para peças enviadas a terceiros, manter em conta de “estoque em poder de terceiros” até a efetiva venda.
+
+Fundamentação: CPC 00 (estrutura conceitual) — ativo exige controle e benefícios econômicos futuros.
+                """,
+                "motivo": "Aplicou essência sobre a forma, evitando superavaliação e garantindo conformidade conceitual.",
                 "impacto": {"resultado": 0, "risco": -5, "esg": 5, "tecnica": 15}
             },
+
             "Moderado": {
-                "texto": "Registrar com passivo.",
-                "motivo": "Transparência parcial.",
+                "texto": """
+Registrar as peças em conta de ativo com contrapartida em passivo, evidenciando a operação no balanço.
+
+Ainda que não haja transferência de propriedade, busca-se transparência informacional para usuários externos.
+                """,
+                "motivo": "Buscou transparência, porém com fragilidade conceitual quanto à definição de ativo.",
                 "impacto": {"resultado": 5, "risco": 10, "esg": 5, "tecnica": 0}
             },
+
             "Agressivo": {
-                "texto": "Registrar como estoque próprio.",
-                "motivo": "Superavaliação.",
+                "texto": """
+Registrar as peças consignadas como estoque próprio e reconhecer receita antecipada no envio para terceiros.
+
+Essa abordagem aumenta artificialmente o ativo e o resultado da empresa.
+                """,
+                "motivo": "Inflou ativos e receitas sem base econômica, elevando risco e distorcendo a informação contábil.",
                 "impacto": {"resultado": 25, "risco": 30, "esg": -10, "tecnica": -20}
             }
         }
     },
 
-    "prove": {
-        "titulo": "2. Prove em Casa",
-        "contexto": "Clientes recebem peças e podem devolver.",
-        "avatar_1": {"nome": "Renata", "fala": "Saiu = vendeu."},
-        "avatar_2": {"nome": "Vitor", "fala": "Sem aceitação, não há receita."},
+    "prove_em_casa": {
+        "titulo": "2. Venda Condicional: Modelo 'Prove em Casa'",
+
+        "contexto": """
+A Refaz implementou a estratégia “prove em casa”, enviando 300 peças para clientes experimentarem por até 7 dias, com possibilidade de devolução sem custo.
+
+Ao final do período:
+• 180 peças foram efetivamente compradas  
+• 120 foram devolvidas  
+
+Cada peça possui preço médio de R$ 70 e custo de R$ 22.
+
+A dúvida central é o momento do reconhecimento da receita:
+• No envio?  
+• Na aceitação do cliente?  
+
+Essa decisão impacta diretamente:
+• Receita  
+• Estoques  
+• Resultado  
+• Confiabilidade das demonstrações  
+
+Fundamentação relevante: CPC 47 (receita de contrato com cliente).
+        """,
+
+        "avatar_1": {
+            "nome": "Renata (Operações)",
+            "fala": "O produto saiu do estoque, isso já deveria contar como venda."
+        },
+
+        "avatar_2": {
+            "nome": "Vitor (Contador)",
+            "fala": "Sem transferência de controle, não podemos reconhecer receita."
+        },
+
         "tem_contabilizacao": True,
+
         "opcoes": {
+
             "Conservador": {
-                "texto": "Reconhecer só o vendido.",
-                "motivo": "Seguiu CPC 47.",
+                "texto": """
+Reconhecer receita apenas das 180 peças efetivamente aceitas pelos clientes.
+
+As demais permanecem registradas como “estoque em poder de clientes”.
+
+Fundamentação: CPC 47 — receita reconhecida somente com transferência de controle.
+                """,
+                "motivo": "Aplicou corretamente o CPC 47, priorizando prudência e confiabilidade.",
                 "impacto": {"resultado": -10, "risco": -10, "esg": 5, "tecnica": 15}
             },
+
             "Moderado": {
-                "texto": "Estimativa com provisão.",
-                "motivo": "Antecipação moderada.",
+                "texto": """
+Reconhecer as 300 peças como receita com base em estimativa de devolução, registrando provisão para perdas.
+
+Busca refletir expectativa econômica, mas envolve incerteza relevante.
+                """,
+                "motivo": "Utilizou estimativa válida, porém com antecipação parcial de receita.",
                 "impacto": {"resultado": 5, "risco": 10, "esg": 5, "tecnica": 5}
             },
+
             "Agressivo": {
-                "texto": "Reconhecer tudo.",
-                "motivo": "Antecipação indevida.",
+                "texto": """
+Reconhecer receita integral no envio das 300 peças.
+
+Ignora o direito de devolução e antecipa resultado indevidamente.
+                """,
+                "motivo": "Antecipou receita sem base econômica, comprometendo a qualidade da informação.",
                 "impacto": {"resultado": 20, "risco": 25, "esg": -5, "tecnica": -15}
             }
         }
     },
 
     "fretes": {
-        "titulo": "3. Fretes",
-        "contexto": "Custos logísticos relevantes.",
-        "avatar_1": {"nome": "Financeiro", "fala": "Impacta lucro."},
-        "avatar_2": {"nome": "Vitor", "fala": "Nem tudo é ativo."},
+        "titulo": "3. Fretes: Custo, Despesa ou Ativo?",
+
+        "contexto": """
+A Refaz passou a incorrer em custos logísticos relevantes:
+
+• R$ 6.400 em fretes de entrada de peças em consignação  
+• R$ 4.500 em fretes do modelo “prove em casa”  
+• Subsídio de frete estimado em R$ 14.400 mensais  
+
+O dilema é definir se esses valores devem:
+• Ser ativados como estoque  
+• Ou reconhecidos como despesa  
+
+O risco envolve:
+• Inflar artificialmente o ativo  
+• Distorcer o resultado  
+• Comprometer análise de desempenho  
+
+Fundamentação: CPC 16 (estoques).
+        """,
+
+        "avatar_1": {
+            "nome": "Financeiro",
+            "fala": "Se tratarmos tudo como despesa, o lucro despenca."
+        },
+
+        "avatar_2": {
+            "nome": "Vitor (Contador)",
+            "fala": "Só podemos ativar o que gera benefício econômico futuro."
+        },
+
         "tem_contabilizacao": False,
+
         "opcoes": {
+
             "Conservador": {
-                "texto": "Despesa.",
-                "motivo": "Evita distorção.",
+                "texto": """
+Reconhecer os fretes como despesa, exceto quando diretamente atribuíveis ao estoque próprio.
+
+Fundamentação: CPC 16 — apenas custos diretamente atribuíveis podem ser capitalizados.
+                """,
+                "motivo": "Evitou ativação indevida e manteve aderência normativa.",
                 "impacto": {"resultado": -12, "risco": -5, "esg": 2, "tecnica": 10}
             },
+
             "Moderado": {
-                "texto": "Capitalizar parcialmente.",
-                "motivo": "Erro leve.",
+                "texto": """
+Capitalizar parcialmente fretes, incluindo itens com menor vínculo direto ao estoque.
+
+Busca melhorar resultado, mas com distorção conceitual leve.
+                """,
+                "motivo": "Erro conceitual moderado na classificação de custos.",
                 "impacto": {"resultado": -5, "risco": 5, "esg": 5, "tecnica": -5}
             },
+
             "Agressivo": {
-                "texto": "Ativar tudo.",
-                "motivo": "Manipulação.",
+                "texto": """
+Ativar todos os fretes como estoque, independentemente da natureza.
+
+Maximiza resultado no curto prazo, mas distorce demonstrações.
+                """,
+                "motivo": "Manipulação contábil para inflar resultado e ativo.",
                 "impacto": {"resultado": 15, "risco": 20, "esg": -5, "tecnica": -15}
             }
         }
     }
 }
-
 # =============================
 # ROTAS
 # =============================
