@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Refaz - Início</title>
+    <title>Refaz - Simulação Contábil</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
     <style>
@@ -14,35 +14,28 @@
         }
 
         .container-inicio {
-            max-width: 900px;
+            max-width: 1000px;
             margin: auto;
-            padding: 20px;
+            padding: 25px;
         }
 
         h1 {
             text-align: center;
             color: #3b82f6;
-            margin-bottom: 20px;
         }
 
-        .logo-container {
+        .subtitulo {
             text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .img-logo {
-            width: 100%;
-            max-width: 600px;
-            border-radius: 12px;
-            opacity: 0.9;
+            color: #94a3b8;
+            margin-bottom: 30px;
         }
 
         .quadro {
             background: #0f172a;
-            padding: 20px;
-            border-radius: 10px;
+            padding: 25px;
+            border-radius: 12px;
             margin-bottom: 20px;
-            border-left: 4px solid #3b82f6;
+            border-left: 5px solid #3b82f6;
         }
 
         .quadro h2 {
@@ -50,25 +43,30 @@
             color: #3b82f6;
         }
 
+        .quadro p {
+            line-height: 1.6;
+            text-align: justify;
+        }
+
         .impacto-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 10px;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
         }
 
         .impacto-card {
             background: #1e293b;
-            padding: 10px;
-            border-radius: 6px;
+            padding: 15px;
+            border-radius: 8px;
             text-align: center;
-            font-size: 14px;
         }
 
         .card-inicio {
             background: #1e293b;
-            padding: 25px;
+            padding: 30px;
             border-radius: 12px;
             border: 1px solid #334155;
+            margin-top: 30px;
         }
 
         .input-group {
@@ -84,8 +82,8 @@
 
         input {
             flex: 1;
-            padding: 10px;
-            border-radius: 5px;
+            padding: 12px;
+            border-radius: 6px;
             border: 1px solid #334155;
             background: #020617;
             color: white;
@@ -93,12 +91,12 @@
 
         .btn-adicionar {
             background: #16a34a;
-            border: none;
             padding: 10px;
             border-radius: 6px;
             color: white;
             font-weight: bold;
             cursor: pointer;
+            margin-top: 10px;
         }
 
         .btn-remover {
@@ -112,26 +110,24 @@
 
         .btn-iniciar-jogo {
             width: 100%;
-            margin-top: 15px;
-            background: #3b82f6;
-            padding: 15px;
-            border: none;
-            border-radius: 8px;
+            margin-top: 20px;
+            padding: 16px;
+            font-size: 1.2em;
             font-weight: bold;
+            background: linear-gradient(90deg, #3b82f6, #2563eb);
+            border: none;
+            border-radius: 10px;
             color: white;
-            font-size: 16px;
             cursor: pointer;
-        }
-
-        .btn-iniciar-jogo:hover {
-            background: #2563eb;
+            box-shadow: 0 0 15px rgba(59,130,246,0.5);
         }
 
         .contador {
             text-align: right;
-            font-size: 12px;
+            font-size: 13px;
             color: #94a3b8;
         }
+
     </style>
 </head>
 
@@ -139,40 +135,53 @@
 
 <div class="container-inicio">
 
-    <div class="logo-container">
-        <img src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?auto=format&fit=crop&w=800&q=80" class="img-logo">
-    </div>
-
     <h1>Refaz – Gestão Contábil Estratégica</h1>
+    <p class="subtitulo">
+        Simulação aplicada de tomada de decisão contábil sob incerteza, baseada nos CPC 00, CPC 16 e CPC 47
+    </p>
 
     <div class="quadro">
-        <h2>🎯 Objetivo</h2>
+        <h2>📚 Contexto da Simulação</h2>
         <p>
-            Equilibrar <strong>Resultado</strong>, <strong>Risco</strong>, 
-            <strong>ESG</strong> e <strong>Técnica Contábil</strong>.
-            Decisões impactam diretamente o desempenho da consultoria.
+            Você assume o papel de consultor contábil da Refaz, uma startup de moda circular em rápido crescimento,
+            cujo modelo de negócios envolve doações, recondicionamento, consignação e vendas condicionais.
+            Diante da ausência de controles consolidados e da proximidade do fechamento do exercício social,
+            decisões contábeis críticas precisarão ser tomadas.
+        </p>
+        <p>
+            Cada escolha impactará diretamente a mensuração de ativos, o reconhecimento de receitas,
+            a transparência das demonstrações financeiras e a percepção de risco por investidores e stakeholders.
         </p>
     </div>
 
     <div class="quadro">
-        <h2>⏱️ Regras</h2>
-        <p>• 10 minutos por dilema</p>
-        <p>• Justificar com base técnica (CPC)</p>
-        <p>• Professor pode auditar decisões</p>
-    </div>
+        <h2>🎯 Objetivo</h2>
+        <p>
+            Equilibrar desempenho econômico, conformidade normativa e prudência contábil.
+            O grupo vencedor será aquele que melhor harmonizar:
+        </p>
 
-    <div class="quadro">
-        <h2>📊 Indicadores</h2>
         <div class="impacto-grid">
-            <div class="impacto-card">💰 Resultado</div>
-            <div class="impacto-card">🛡️ Risco</div>
-            <div class="impacto-card">🌱 ESG</div>
-            <div class="impacto-card">📊 Técnica</div>
+            <div class="impacto-card"><strong>💰 Resultado</strong><br>Desempenho econômico</div>
+            <div class="impacto-card"><strong>🛡️ Risco</strong><br>Exposição fiscal e regulatória</div>
+            <div class="impacto-card"><strong>📊 Técnica</strong><br>Aderência aos CPCs</div>
+            <div class="impacto-card"><strong>🌱 ESG</strong><br>Responsabilidade socioambiental</div>
         </div>
     </div>
 
+    <div class="quadro">
+        <h2>⏱️ Regras da Dinâmica</h2>
+        <p>
+            • Cada dilema representa uma situação real de julgamento contábil envolvendo incerteza, estimativas e interpretação normativa.  
+            • Os grupos terão tempo limitado para analisar o cenário e definir uma decisão técnica.  
+            • A decisão deve ser sustentada com base nos conceitos dos CPCs aplicáveis (especialmente CPC 00, CPC 16 e CPC 47).  
+            • O professor poderá solicitar a demonstração da contabilização (lançamentos de débito e crédito).  
+            • Decisões sem fundamentação técnica adequada podem resultar em penalidades.  
+        </p>
+    </div>
+
     <div class="card-inicio">
-        <h2>👥 Cadastro de Grupos</h2>
+        <h2>👥 Cadastro das Consultorias</h2>
 
         <form action="/iniciar" method="post">
             <div id="container-grupos" class="input-group">
