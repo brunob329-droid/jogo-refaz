@@ -7,6 +7,12 @@
 
 <style>
 
+body {
+    background: #020617;
+    color: #e2e8f0;
+    font-family: Arial, sans-serif;
+}
+
 .container-final {
     max-width: 1200px;
     margin: auto;
@@ -20,13 +26,15 @@
     margin-bottom: 20px;
 }
 
+/* VENCEDOR */
 .vencedor-box {
     background: #1e293b;
     border: 2px solid #fbbf24;
     padding: 25px;
     border-radius: 12px;
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 40px;
+    box-shadow: 0 0 25px rgba(251,191,36,0.3);
 }
 
 .score {
@@ -35,12 +43,14 @@
     margin-top: 10px;
 }
 
+/* GRID */
 .grid-times {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 20px;
 }
 
+/* CARD */
 .card-time {
     background: #0f172a;
     padding: 20px;
@@ -48,11 +58,13 @@
     border: 1px solid #334155;
 }
 
+/* BARRAS */
 .barra {
     height: 10px;
     background: #334155;
     border-radius: 5px;
     margin: 5px 0 15px 0;
+    overflow: hidden;
 }
 
 .progresso {
@@ -60,22 +72,39 @@
     border-radius: 5px;
 }
 
+/* CORES */
 .resultado { background: #3b82f6; }
 .risco { background: #ef4444; }
 .esg { background: #10b981; }
 .tecnica { background: #f59e0b; }
 
+/* HISTÓRICO */
 .lista-decisao {
     font-size: 0.9rem;
     margin-top: 10px;
 }
 
+.lista-decisao ul {
+    padding-left: 15px;
+}
+
+.lista-decisao li {
+    margin-bottom: 10px;
+}
+
+/* PARECER */
 .parecer {
     margin-top: 20px;
     padding: 15px;
     background: #1e293b;
     border-left: 4px solid #3b82f6;
     border-radius: 6px;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.parecer ul {
+    padding-left: 18px;
 }
 
 </style>
@@ -90,15 +119,20 @@
 <!-- VENCEDOR -->
 <div class="vencedor-box">
     <h2>🏆 Consultoria Vencedora</h2>
-    <h1>{{ vencedora.nome }}</h1>
-    <p>Perfil Estratégico: <strong>{{ vencedora.perfil_predominante }}</strong></p>
-    <div class="score">Score Final: {{ vencedora.score }}</div>
+
+    {% if vencedor %}
+        <h1>{{ vencedor.nome }}</h1>
+        <p>Perfil Estratégico: <strong>{{ vencedor.perfil_predominante }}</strong></p>
+        <div class="score">Score Final: {{ vencedor.score }}</div>
+    {% else %}
+        <p>Nenhum resultado disponível.</p>
+    {% endif %}
 </div>
 
 <!-- TODOS OS TIMES -->
 <div class="grid-times">
 
-{% for t in teams %}
+{% for t in ranking %}
 
 <div class="card-time">
 
@@ -106,36 +140,67 @@
     <p><strong>Perfil:</strong> {{ t.perfil_predominante }}</p>
     <p><strong>Score:</strong> {{ t.score }}</p>
 
-    <!-- BARRAS -->
+    <!-- RESULTADO -->
     <p>💰 Resultado: {{ t.resultado }}</p>
-    <div class="barra"><div class="progresso resultado" style="width: {{ t.resultado }}%"></div></div>
+    <div class="barra">
+        <div class="progresso resultado" style="width: {{ [t.resultado, 100]|min }}%"></div>
+    </div>
 
+    <!-- RISCO -->
     <p>🛡️ Risco: {{ t.risco }}</p>
-    <div class="barra"><div class="progresso risco" style="width: {{ t.risco }}%"></div></div>
+    <div class="barra">
+        <div class="progresso risco" style="width: {{ [t.risco|abs, 100]|min }}%"></div>
+    </div>
 
+    <!-- ESG -->
     <p>🌱 ESG: {{ t.esg }}</p>
-    <div class="barra"><div class="progresso esg" style="width: {{ t.esg }}%"></div></div>
+    <div class="barra">
+        <div class="progresso esg" style="width: {{ [t.esg, 100]|min }}%"></div>
+    </div>
 
+    <!-- TÉCNICA -->
     <p>📊 Técnica: {{ t.tecnica }}</p>
-    <div class="barra"><div class="progresso tecnica" style="width: {{ t.tecnica }}%"></div></div>
+    <div class="barra">
+        <div class="progresso tecnica" style="width: {{ [t.tecnica, 100]|min }}%"></div>
+    </div>
 
-    <!-- HISTÓRICO -->
+    <!-- HISTÓRICO COMPLETO -->
     <div class="lista-decisao">
-        <h4>📚 Decisões:</h4>
+        <h4>📚 Decisões por Rodada:</h4>
         <ul>
             {% for h in t.historico %}
             <li>
-                Rodada {{ h.rodada }} — <strong>{{ h.perfil }}</strong><br>
+                <strong>Rodada {{ h.rodada }}</strong> — {{ h.perfil }}<br>
                 {{ h.motivo }}
             </li>
             {% endfor %}
         </ul>
     </div>
 
-    <!-- PARECER AUTOMÁTICO -->
+    <!-- PARECER FINAL -->
     <div class="parecer">
-        <strong>Parecer Final:</strong><br>
-        {{ t.parecer }}
+        <strong>Parecer Final:</strong>
+
+        <ul>
+            <li>Perfil predominante: {{ t.perfil_predominante }}</li>
+            <li>Resultado final: {{ t.resultado }}</li>
+            <li>Exposição ao risco: {{ t.risco }}</li>
+            <li>Aderência técnica: {{ t.tecnica }}</li>
+            <li>Compromisso ESG: {{ t.esg }}</li>
+        </ul>
+
+        <br>
+
+        {% if t.perfil_predominante == "Conservador" %}
+            Estratégia baseada em prudência contábil, priorizando conformidade normativa e redução de riscos.
+        {% elif t.perfil_predominante == "Moderado" %}
+            Estratégia de equilíbrio entre desempenho econômico e aderência técnica, com riscos controlados.
+        {% elif t.perfil_predominante == "Agressivo" %}
+            Estratégia voltada à maximização de resultado, com maior exposição a risco e fragilidade técnica.
+        {% else %}
+            Perfil indefinido devido à ausência de decisões consistentes.
+        {% endif %}
+
     </div>
 
 </div>
@@ -145,7 +210,13 @@
 </div>
 
 <div style="text-align:center; margin-top:30px;">
-    <a href="/reiniciar" style="background:#3b82f6; padding:12px 20px; color:white; text-decoration:none; border-radius:6px;">
+    <a href="/reiniciar" style="
+        background:#3b82f6;
+        padding:12px 20px;
+        color:white;
+        text-decoration:none;
+        border-radius:6px;
+        font-weight:bold;">
         🔄 Nova Simulação
     </a>
 </div>
