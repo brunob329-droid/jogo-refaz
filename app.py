@@ -17,46 +17,87 @@ def criar_time(nome):
         "risco": 0,
         "esg": 50,
         "tecnica": 50,
-        "auditorias_restantes": 2
+        "auditorias_restantes": 2,
+        "motivos": [], # Guarda o histórico das decisões tomadas
+        "perfil_contagem": {"Conservador": 0, "Moderado": 0, "Agressivo": 0} # Para definir o perfil final
     }
 
 # ==========================================
-# DILEMAS (ÚLTIMOS 3 DO ROTEIRO REFAZ)
+# DILEMAS (COM DECISÕES TÉCNICAS REAIS E AVATARES)
 # ==========================================
 
 dilemas = {
     "consignacao": {
-        "titulo": "1. Consignação (Influenciadores)",
-        "contexto": "800 itens recebidos (R$ 80/un). A Refaz ganha 60% da venda. Devemos registrar essas peças como nosso Ativo?",
-        "conflito": "Daniela: 'Se o estoque parecer maior, atraímos mais investidores!' | Vitor: 'O controle e riscos são diferentes.'",
-        "desc_conservadora": "Controle apenas extracontábil (Contas de Compensação). Não infla o Ativo.",
-        "desc_moderada": "Registra em conta segregada com passivo correspondente. Transparência na posse.",
-        "desc_agressiva": "Registra como estoque próprio. Aumenta artificialmente o tamanho da empresa.",
-        "conservadora": {"resultado": 0, "risco": -5, "esg": +5, "tecnica": +10},
-        "moderada": {"resultado": 0, "risco": +5, "esg": +5, "tecnica": +5},
-        "agressiva": {"resultado": +25, "risco": +30, "esg": -10, "tecnica": -20}
+        "titulo": "1. Consignação (Influenciadores e Parceiros)",
+        "contexto": "A Refaz recebeu 800 peças em consignação (R$ 80/un). A empresa fica com 60% na venda. Além disso, estuda enviar peças próprias para terceiros venderem.",
+        "avatar_1": {"nome": "Daniela (CEO)", "fala": "Se lançarmos as 800 peças recebidas no nosso Ativo, o estoque parece maior e atraímos mais investidores focados em impacto!"},
+        "avatar_2": {"nome": "Vitor (Contador)", "fala": "Mas não temos a propriedade, Daniela. E sobre enviar nossas peças para fora, os riscos mudam completamente."},
+        "tem_contabilizacao": True, # Exige quadro de contabilização
+        "opcoes": {
+            "Conservador": {
+                "texto": "Não reconhecer as peças recebidas no Ativo (controle extracontábil). As peças enviadas a terceiros continuam no estoque da Refaz até a venda final.",
+                "motivo": "Priorizou a essência sobre a forma jurídica (CPC 00), mantendo controle extracontábil da consignação e não inflando o Ativo.",
+                "impacto": {"resultado": 0, "risco": -5, "esg": +5, "tecnica": +15}
+            },
+            "Moderado": {
+                "texto": "Registrar as peças recebidas em conta segregada com um passivo correspondente para dar transparência, e reconhecer receita na emissão da nota de remessa.",
+                "motivo": "Buscou um meio-termo na consignação, mas cometeu um leve desvio técnico ao antecipar receitas na remessa.",
+                "impacto": {"resultado": +5, "risco": +10, "esg": +5, "tecnica": -5}
+            },
+            "Agressivo": {
+                "texto": "Registrar as 800 peças como estoque próprio para inflar o balanço e registrar as peças enviadas a terceiros como receita imediata.",
+                "motivo": "Assumiu alto risco fiscal e contábil ao inflar o Ativo com peças de terceiros e registrar venda sem transferência de controle.",
+                "impacto": {"resultado": +25, "risco": +30, "esg": -10, "tecnica": -20}
+            }
+        }
     },
     "prove_em_casa": {
         "titulo": "2. Venda Condicional (Prove em Casa)",
-        "contexto": "300 peças enviadas, mas apenas 180 confirmadas. Vitor precisa decidir o momento da receita (CPC 47).",
-        "conflito": "Renata: 'O produto saiu da prateleira, já é venda!' | Vitor: 'O cliente ainda pode devolver tudo em 7 dias.'",
-        "desc_conservadora": "Reconhece receita apenas após os 7 dias (Confirmação). Prudência máxima.",
-        "desc_moderada": "Reconhece as 300 peças com Provisão de Devolução (estimativa de 40%).",
-        "desc_agressiva": "Reconhece as 300 peças como receita definitiva no envio. Infla o giro de estoque.",
-        "conservadora": {"resultado": -10, "risco": -10, "esg": +5, "tecnica": +15},
-        "moderada": {"resultado": +5, "risco": +10, "esg": +5, "tecnica": +8},
-        "agressiva": {"resultado": +20, "risco": +25, "esg": -5, "tecnica": -15}
+        "contexto": "300 peças foram enviadas para clientes provarem por 7 dias. Até o fechamento do balanço, apenas 180 peças foram confirmadas como venda definitiva. Custo médio: R$ 22. Preço de venda: R$ 70.",
+        "avatar_1": {"nome": "Renata (Operações)", "fala": "O produto já saiu da prateleira e está na casa do cliente! Para mim, isso já é faturamento garantido!"},
+        "avatar_2": {"nome": "Vitor (Contador)", "fala": "O CPC 47 diz que a transferência física não é transferência de controle. O cliente ainda pode devolver 120 peças."},
+        "tem_contabilizacao": True,
+        "opcoes": {
+            "Conservador": {
+                "texto": "Reconhecer receita (R$ 12.600) e CMV (R$ 3.960) apenas das 180 peças confirmadas. As 120 peças restantes continuam no estoque em uma subconta 'estoque em poder de clientes'.",
+                "motivo": "Aplicou rigorosamente o CPC 47, reconhecendo receita apenas após a transferência definitiva de controle pelo cliente.",
+                "impacto": {"resultado": -10, "risco": -10, "esg": +5, "tecnica": +15}
+            },
+            "Moderado": {
+                "texto": "Reconhecer a receita total das 300 peças, mas constituir uma Provisão para Devoluções baseada no histórico esperado.",
+                "motivo": "Reconheceu receita antecipada no 'prove em casa' compensando com provisão para devoluções.",
+                "impacto": {"resultado": +5, "risco": +10, "esg": +5, "tecnica": +5}
+            },
+            "Agressivo": {
+                "texto": "Reconhecer a receita de todas as 300 peças enviadas imediatamente no envio para melhorar o giro de estoque e o lucro do período.",
+                "motivo": "Infrou artificialmente o faturamento e o lucro reconhecendo vendas que ainda não foram aceitas pelo cliente.",
+                "impacto": {"resultado": +20, "risco": +25, "esg": -5, "tecnica": -15}
+            }
+        }
     },
     "fretes": {
         "titulo": "3. Logística e Fretes (Custo ou Despesa?)",
-        "contexto": "R$ 6.400 de frete na consignação recebida e R$ 4.500 no 'Prove em Casa'. Onde alocar esses custos?",
-        "conflito": "Financeiro: 'Jogue no estoque para não cair o lucro do mês!' | Vitor: 'Nem todo frete é custo de aquisição.'",
-        "desc_conservadora": "Lança 100% como despesa logística do período. Reduz o lucro imediato.",
-        "desc_moderada": "Capitaliza no estoque apenas o frete proporcional às peças vendidas (Rateio).",
-        "desc_agressiva": "Ativa todo o frete no estoque. Posterga a despesa e aumenta o Ativo.",
-        "conservadora": {"resultado": -12, "risco": -5, "esg": +2, "tecnica": +10},
-        "moderada": {"resultado": -5, "risco": +5, "esg": +5, "tecnica": +5},
-        "agressiva": {"resultado": +15, "risco": +20, "esg": -5, "tecnica": -10}
+        "contexto": "Temos R$ 6.400 de frete pago para receber as peças em consignação, e R$ 4.500 de frete do 'prove em casa'.",
+        "avatar_1": {"nome": "Financeiro", "fala": "Não podemos jogar tudo isso como despesa do mês! Jogue no custo do estoque para não derrubar nosso lucro agora!"},
+        "avatar_2": {"nome": "Vitor (Contador)", "fala": "Nem todo frete é custo de aquisição (CPC 16). Não temos propriedade das peças consignadas, e as outras já saíram para o cliente."},
+        "tem_contabilizacao": False,
+        "opcoes": {
+            "Conservador": {
+                "texto": "Lançar 100% dos fretes de consignação recebida e envios aos clientes diretamente como despesa de vendas/comercial no resultado.",
+                "motivo": "Evitou capitalizar custos indevidos, lançando fretes logísticos como despesa do período conforme normas técnicas.",
+                "impacto": {"resultado": -12, "risco": -5, "esg": +2, "tecnica": +10}
+            },
+            "Moderado": {
+                "texto": "Capitalizar no estoque o frete da consignação e lançar o frete das vendas como despesa.",
+                "motivo": "Capitalizou de forma incorreta o frete de itens que não são de propriedade da empresa (consignados).",
+                "impacto": {"resultado": -5, "risco": +5, "esg": +5, "tecnica": -5}
+            },
+            "Agressivo": {
+                "texto": "Ativar todos os valores de frete no Ativo (Estoque), postergando o reconhecimento da despesa para aumentar a margem atual.",
+                "motivo": "Postergou despesas agressivamente, capitalizando fretes operacionais como ativo para mascarar o resultado.",
+                "impacto": {"resultado": +15, "risco": +20, "esg": -5, "tecnica": -15}
+            }
+        }
     }
 }
 
@@ -67,13 +108,13 @@ dilemas = {
 eventos_disponiveis = {
     "fiscalizacao": {
         "titulo": "🚨 FISCALIZAÇÃO SURPRESA!",
-        "mensagem": "Receita Federal identificou falhas no compliance. Grupos com RISCO > 30 perdem 20 pts de lucro!",
+        "mensagem": "Receita Federal identificou falhas no compliance.",
         "impacto_risco_limite": 30,
         "penalidade": -20
     },
     "investidor": {
         "titulo": "💰 APORTE INVESTIDOR ESG",
-        "mensagem": "Fundo de impacto premiou a transparência. Grupos com ESG > 60 ganham 15 pts de lucro!",
+        "mensagem": "Fundo de impacto premiou a transparência.",
         "impacto_esg_minimo": 60,
         "bonus": 15
     }
@@ -111,6 +152,14 @@ def dashboard():
     jogo_encerrado = len(dilemas_disponiveis) == 0
     equipe_vencedora = max(teams.values(), key=lambda x: x["resultado"]) if teams else None
     
+    # Define o perfil predominante dinamicamente para exibição
+    for key, time in teams.items():
+        if time["perfil_contagem"]:
+            perfil_max = max(time["perfil_contagem"], key=time["perfil_contagem"].get)
+            time["perfil_predominante"] = perfil_max
+        else:
+            time["perfil_predominante"] = "N/A"
+
     return render_template("dashboard.html", teams=teams, dilemas=dilemas_disponiveis, 
                            dilemas_usados=dilemas_usados, jogo_encerrado=jogo_encerrado, 
                            equipe_vencedora=equipe_vencedora)
@@ -132,9 +181,19 @@ def registrar(id_dilema, perfil, time_key):
     # Finaliza o dilema quando todos os grupos cadastrados votarem
     if len(escolhas_temporarias[id_dilema]) == len(teams):
         for t_key, p_escolhido in escolhas_temporarias[id_dilema].items():
-            impacto = dilemas[id_dilema][p_escolhido]
+            
+            # Pega os dados da opção escolhida (texto, motivo, impacto)
+            opcao_dados = dilemas[id_dilema]["opcoes"][p_escolhido]
+            impacto = opcao_dados["impacto"]
+            motivo = opcao_dados["motivo"]
+            
+            # Aplica os impactos numéricos
             for stat in ["resultado", "risco", "esg", "tecnica"]:
                 teams[t_key][stat] += impacto[stat]
+            
+            # Salva o histórico para o Dashboard
+            teams[t_key]["motivos"].append(motivo)
+            teams[t_key]["perfil_contagem"][p_escolhido] += 1
         
         dilemas_usados.append(id_dilema)
         del escolhas_temporarias[id_dilema]
