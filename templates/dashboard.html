@@ -262,8 +262,8 @@ body { text-align: center; }
 
     <!-- BOTÕES PROFESSOR -->
     <div class="acoes-prof">
-        <a href="/ajuste/{{ key }}/bonus" class="btn-prof bonus">+ Técnica</a>
-        <a href="/ajuste/{{ key }}/penalidade" class="btn-prof penal">- Técnica</a>
+        <a href="{{ url_for('ajuste', time_key=key, tipo='bonus') }}" class="btn-prof bonus">+ Técnica</a>
+        <a href="{{ url_for('ajuste', time_key=key, tipo='penalidade') }}" class="btn-prof penal">- Técnica</a>
     </div>
 
 </div>
