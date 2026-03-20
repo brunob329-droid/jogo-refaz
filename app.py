@@ -42,10 +42,10 @@ def calcular_score(t):
     risco_ajustado = max(0, t["risco"])
 
     # Pesos do cálculo final
-    PESO_RESULTADO = 1.6
+    PESO_RESULTADO = 2.0
     PESO_TECNICA = 1.3
     PESO_ESG = 0.8
-    PESO_RISCO = 1.2
+    PESO_RISCO = 0.6
 
     score = (
         (t["resultado"] * PESO_RESULTADO)
