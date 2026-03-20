@@ -146,10 +146,10 @@ body {
         <div class="progresso resultado" style="width: {{ [t.resultado, 100]|min }}%"></div>
     </div>
 
-    <!-- RISCO -->
+    <!-- RISCO (SEM NEGATIVO) -->
     <p>🛡️ Risco: {{ t.risco }}</p>
     <div class="barra">
-        <div class="progresso risco" style="width: {{ [t.risco|abs, 100]|min }}%"></div>
+        <div class="progresso risco" style="width: {{ [t.risco, 100]|min }}%"></div>
     </div>
 
     <!-- ESG -->
@@ -182,23 +182,22 @@ body {
         <strong>Parecer Final:</strong>
 
         <ul>
-            <li>Perfil predominante: {{ t.perfil_predominante }}</li>
             <li>Resultado final: {{ t.resultado }}</li>
-            <li>Exposição ao risco: {{ t.risco }}</li>
-            <li>Aderência técnica: {{ t.tecnica }}</li>
-            <li>Compromisso ESG: {{ t.esg }}</li>
+            <li>Risco acumulado: {{ t.risco }}</li>
+            <li>Qualidade técnica: {{ t.tecnica }}</li>
+            <li>Governança (ESG): {{ t.esg }}</li>
         </ul>
 
         <br>
 
         {% if t.perfil_predominante == "Conservador" %}
-            Estratégia baseada em prudência contábil, priorizando conformidade normativa e redução de riscos.
+            Decisões priorizaram conformidade normativa e segurança contábil, com menor exposição a riscos.
         {% elif t.perfil_predominante == "Moderado" %}
-            Estratégia de equilíbrio entre desempenho econômico e aderência técnica, com riscos controlados.
+            Decisões buscaram equilíbrio entre desempenho econômico e aderência técnica.
         {% elif t.perfil_predominante == "Agressivo" %}
-            Estratégia voltada à maximização de resultado, com maior exposição a risco e fragilidade técnica.
+            Decisões focaram maximização de resultado, com maior exposição a risco e fragilidade conceitual.
         {% else %}
-            Perfil indefinido devido à ausência de decisões consistentes.
+            Não foi possível identificar um padrão decisório predominante.
         {% endif %}
 
     </div>
