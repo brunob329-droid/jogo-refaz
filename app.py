@@ -323,7 +323,27 @@ def dashboard():
         total_rodadas=TOTAL_DILEMAS
     )
 
+@app.route("/ajuste/<time_key>/<tipo>")
+def ajuste(time_key, tipo):
 
+    if time_key in teams:
+
+        if tipo == "bonus":
+            teams[time_key]["resultado"] += 10
+            teams[time_key]["tecnica"] += 10
+            teams[time_key]["motivos"].append(
+                "Bônus do professor: excelente fundamentação contábil."
+            )
+
+        elif tipo == "penalidade":
+            teams[time_key]["resultado"] -= 10
+            teams[time_key]["tecnica"] -= 10
+            teams[time_key]["motivos"].append(
+                "Penalidade do professor: falha na sustentação técnica."
+            )
+
+    return redirect(url_for("dashboard"))
+    
 @app.route("/dilema/<id_dilema>")
 def mostrar_dilema(id_dilema):
     global tempo_inicio_dilema
