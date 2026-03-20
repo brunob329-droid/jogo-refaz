@@ -101,7 +101,7 @@ Não reconhecer as peças consignadas no ativo, mantendo controle extracontábil
 
 Para peças enviadas a terceiros, manter em conta de “estoque em poder de terceiros” até a efetiva venda.
 
-Fundamentação: CPC 00 (estrutura conceitual) — ativo exige controle e benefícios econômicos futuros.
+
                 """,
                 "motivo": "Aplicou essência sobre a forma, evitando superavaliação e garantindo conformidade conceitual.",
                 "impacto": {"resultado": -15, "risco": -5, "esg": 5, "tecnica": 15}
@@ -121,7 +121,7 @@ Ainda que não haja transferência de propriedade, busca-se transparência infor
                 "texto": """
 Registrar as peças consignadas como estoque próprio e reconhecer receita antecipada no envio para terceiros.
 
-Essa abordagem aumenta artificialmente o ativo e o resultado da empresa.
+.
                 """,
                 "motivo": "Inflou ativos e receitas sem base econômica, elevando risco e distorcendo a informação contábil.",
                 "impacto": {"resultado": 25, "risco": 28, "esg": -8, "tecnica": -10}
@@ -174,7 +174,7 @@ Reconhecer receita apenas das 180 peças efetivamente aceitas pelos clientes.
 
 As demais permanecem registradas como “estoque em poder de clientes”.
 
-Fundamentação: CPC 47 — receita reconhecida somente com transferência de controle.
+
                 """,
                 "motivo": "Aplicou corretamente o CPC 47, priorizando prudência e confiabilidade.",
                 "impacto": {"resultado": -20, "risco": -10, "esg": 5, "tecnica": 15}
@@ -184,7 +184,7 @@ Fundamentação: CPC 47 — receita reconhecida somente com transferência de co
                 "texto": """
 Reconhecer as 300 peças como receita com base em estimativa de devolução, registrando provisão para perdas.
 
-Busca refletir expectativa econômica, mas envolve incerteza relevante.
+
                 """,
                 "motivo": "Utilizou estimativa válida, porém com antecipação parcial de receita.",
                 "impacto": {"resultado": 8, "risco": 15, "esg": 3, "tecnica": 0}
@@ -194,7 +194,7 @@ Busca refletir expectativa econômica, mas envolve incerteza relevante.
                 "texto": """
 Reconhecer receita integral no envio das 300 peças.
 
-Ignora o direito de devolução e antecipa resultado indevidamente.
+
                 """,
                 "motivo": "Antecipou receita sem base econômica, comprometendo a qualidade da informação.",
                 "impacto": {"resultado": 22, "risco": 22, "esg": -5, "tecnica": -8}
@@ -226,7 +226,7 @@ Fundamentação: CPC 16 (estoques).
 
         "avatar_1": {
             "nome": "Financeiro",
-            "fala": "Se tratarmos tudo como despesa, o lucro despenca."
+            "fala": "Se tratarmos tudo como despesa, o lucro despenca , e podemos perder os investidores ."
         },
 
         "avatar_2": {
@@ -242,7 +242,7 @@ Fundamentação: CPC 16 (estoques).
                 "texto": """
 Reconhecer os fretes como despesa, exceto quando diretamente atribuíveis ao estoque próprio.
 
-Fundamentação: CPC 16 — apenas custos diretamente atribuíveis podem ser capitalizados.
+
                 """,
                 "motivo": "Evitou ativação indevida e manteve aderência normativa.",
                 "impacto": {"resultado": -18, "risco": -5, "esg": 2, "tecnica": 8}
@@ -252,7 +252,7 @@ Fundamentação: CPC 16 — apenas custos diretamente atribuíveis podem ser cap
                 "texto": """
 Capitalizar parcialmente fretes, incluindo itens com menor vínculo direto ao estoque.
 
-Busca melhorar resultado, mas com distorção conceitual leve.
+
                 """,
                 "motivo": "Erro conceitual moderado na classificação de custos.",
                 "impacto": {"resultado": -3, "risco": 12, "esg": 5, "tecnica": -3}
@@ -262,7 +262,7 @@ Busca melhorar resultado, mas com distorção conceitual leve.
                 "texto": """
 Ativar todos os fretes como estoque, independentemente da natureza.
 
-Maximiza resultado no curto prazo, mas distorce demonstrações.
+
                 """,
                 "motivo": "Manipulação contábil para inflar resultado e ativo.",
                 "impacto": {"resultado": 18, "risco": 18, "esg": -4, "tecnica": -8}
