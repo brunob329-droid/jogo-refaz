@@ -38,6 +38,23 @@ def criar_time(nome):
     }
 
 def calcular_score(t):
+    # Risco não pode ficar negativo
+    risco_ajustado = max(0, t["risco"])
+
+    # Pesos do cálculo final
+    PESO_RESULTADO = 1.5
+    PESO_TECNICA = 1.3
+    PESO_ESG = 1.2
+    PESO_RISCO = 1.0
+
+    score = (
+        (t["resultado"] * PESO_RESULTADO)
+        + (t["tecnica"] * PESO_TECNICA)
+        + (t["esg"] * PESO_ESG)
+        - (risco_ajustado * PESO_RISCO)
+    )
+
+    return round(score, 2)
 
 # =============================
 # DILEMAS (OBRIGATÓRIO ESTAR COMPLETO)
@@ -253,6 +270,7 @@ Maximiza resultado no curto prazo, mas distorce demonstrações.
         }
     }
 }
+
 # =============================
 # ROTAS
 # =============================
@@ -286,7 +304,6 @@ def iniciar():
 
 @app.route("/dashboard")
 def dashboard():
-
     if not teams:
         return redirect(url_for("index"))
 
@@ -301,7 +318,7 @@ def dashboard():
         else:
             t["perfil_predominante"] = "Aguardando"
 
-    # 🚫 NÃO MOSTRA LÍDER NO INÍCIO
+    # Não mostra líder no início
     equipe_venc = None
     if any(t["historico"] for t in teams.values()):
         equipe_venc = max(teams.values(), key=lambda x: x["score"])
@@ -316,9 +333,9 @@ def dashboard():
         total_rodadas=TOTAL_DILEMAS
     )
 
+
 @app.route("/ajuste/<time_key>/<tipo>")
 def ajuste(time_key, tipo):
-
     if time_key in teams:
 
         if tipo == "bonus":
@@ -336,7 +353,8 @@ def ajuste(time_key, tipo):
             )
 
     return redirect(url_for("dashboard"))
-    
+
+
 @app.route("/dilema/<id_dilema>")
 def mostrar_dilema(id_dilema):
     global tempo_inicio_dilema
@@ -380,7 +398,7 @@ def registrar(id_dilema, perfil, time_key):
             for stat in ["resultado", "risco", "esg", "tecnica"]:
                 teams[t_k][stat] += dados["impacto"][stat]
 
-            # 🚫 trava risco mínimo em zero
+            # trava risco mínimo em zero
             teams[t_k]["risco"] = max(0, teams[t_k]["risco"])
 
             teams[t_k]["motivos"].append(dados["motivo"])
@@ -408,7 +426,6 @@ def registrar(id_dilema, perfil, time_key):
 
 @app.route("/resultado_final")
 def resultado_final():
-
     for t in teams.values():
         t["score"] = calcular_score(t)
 
@@ -420,7 +437,8 @@ def resultado_final():
     ranking = sorted(teams.values(), key=lambda x: x["score"], reverse=True)
     vencedor = ranking[0] if ranking else None
 
-    return render_template("final.html", ranking=ranking, vencedor=vencedor)
+    # compatível com o final.html que usa "vencedora"
+    return render_template("final.html", ranking=ranking, vencedora=vencedor)
 
 
 @app.route("/reiniciar")
