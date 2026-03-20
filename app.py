@@ -42,10 +42,10 @@ def calcular_score(t):
     risco_ajustado = max(0, t["risco"])
 
     # Pesos do cálculo final
-    PESO_RESULTADO = 1.5
+    PESO_RESULTADO = 1.6
     PESO_TECNICA = 1.3
-    PESO_ESG = 1.2
-    PESO_RISCO = 1.0
+    PESO_ESG = 0.8
+    PESO_RISCO = 1.2
 
     score = (
         (t["resultado"] * PESO_RESULTADO)
@@ -104,7 +104,7 @@ Para peças enviadas a terceiros, manter em conta de “estoque em poder de terc
 Fundamentação: CPC 00 (estrutura conceitual) — ativo exige controle e benefícios econômicos futuros.
                 """,
                 "motivo": "Aplicou essência sobre a forma, evitando superavaliação e garantindo conformidade conceitual.",
-                "impacto": {"resultado": 0, "risco": -5, "esg": 5, "tecnica": 15}
+                "impacto": {"resultado": -15, "risco": -5, "esg": 5, "tecnica": 15}
             },
 
             "Moderado": {
@@ -114,7 +114,7 @@ Registrar as peças em conta de ativo com contrapartida em passivo, evidenciando
 Ainda que não haja transferência de propriedade, busca-se transparência informacional para usuários externos.
                 """,
                 "motivo": "Buscou transparência, porém com fragilidade conceitual quanto à definição de ativo.",
-                "impacto": {"resultado": 5, "risco": 10, "esg": 5, "tecnica": 0}
+                "impacto": {"resultado": 5, "risco": 15, "esg": 3, "tecnica": -2}
             },
 
             "Agressivo": {
@@ -124,7 +124,7 @@ Registrar as peças consignadas como estoque próprio e reconhecer receita antec
 Essa abordagem aumenta artificialmente o ativo e o resultado da empresa.
                 """,
                 "motivo": "Inflou ativos e receitas sem base econômica, elevando risco e distorcendo a informação contábil.",
-                "impacto": {"resultado": 25, "risco": 30, "esg": -10, "tecnica": -20}
+                "impacto": {"resultado": 25, "risco": 28, "esg": -8, "tecnica": -10}
             }
         }
     },
@@ -177,7 +177,7 @@ As demais permanecem registradas como “estoque em poder de clientes”.
 Fundamentação: CPC 47 — receita reconhecida somente com transferência de controle.
                 """,
                 "motivo": "Aplicou corretamente o CPC 47, priorizando prudência e confiabilidade.",
-                "impacto": {"resultado": -10, "risco": -10, "esg": 5, "tecnica": 15}
+                "impacto": {"resultado": -20, "risco": -10, "esg": 5, "tecnica": 15}
             },
 
             "Moderado": {
@@ -187,7 +187,7 @@ Reconhecer as 300 peças como receita com base em estimativa de devolução, reg
 Busca refletir expectativa econômica, mas envolve incerteza relevante.
                 """,
                 "motivo": "Utilizou estimativa válida, porém com antecipação parcial de receita.",
-                "impacto": {"resultado": 5, "risco": 10, "esg": 5, "tecnica": 5}
+                "impacto": {"resultado": 8, "risco": 15, "esg": 3, "tecnica": 0}
             },
 
             "Agressivo": {
@@ -197,7 +197,7 @@ Reconhecer receita integral no envio das 300 peças.
 Ignora o direito de devolução e antecipa resultado indevidamente.
                 """,
                 "motivo": "Antecipou receita sem base econômica, comprometendo a qualidade da informação.",
-                "impacto": {"resultado": 20, "risco": 25, "esg": -5, "tecnica": -15}
+                "impacto": {"resultado": 22, "risco": 22, "esg": -5, "tecnica": -8}
             }
         }
     },
@@ -245,7 +245,7 @@ Reconhecer os fretes como despesa, exceto quando diretamente atribuíveis ao est
 Fundamentação: CPC 16 — apenas custos diretamente atribuíveis podem ser capitalizados.
                 """,
                 "motivo": "Evitou ativação indevida e manteve aderência normativa.",
-                "impacto": {"resultado": -12, "risco": -5, "esg": 2, "tecnica": 10}
+                "impacto": {"resultado": -18, "risco": -5, "esg": 2, "tecnica": 8}
             },
 
             "Moderado": {
@@ -255,7 +255,7 @@ Capitalizar parcialmente fretes, incluindo itens com menor vínculo direto ao es
 Busca melhorar resultado, mas com distorção conceitual leve.
                 """,
                 "motivo": "Erro conceitual moderado na classificação de custos.",
-                "impacto": {"resultado": -5, "risco": 5, "esg": 5, "tecnica": -5}
+                "impacto": {"resultado": -3, "risco": 12, "esg": 5, "tecnica": -3}
             },
 
             "Agressivo": {
@@ -265,7 +265,7 @@ Ativar todos os fretes como estoque, independentemente da natureza.
 Maximiza resultado no curto prazo, mas distorce demonstrações.
                 """,
                 "motivo": "Manipulação contábil para inflar resultado e ativo.",
-                "impacto": {"resultado": 15, "risco": 20, "esg": -5, "tecnica": -15}
+                "impacto": {"resultado": 18, "risco": 18, "esg": -4, "tecnica": -8}
             }
         }
     }
