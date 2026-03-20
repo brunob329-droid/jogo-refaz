@@ -38,13 +38,6 @@ def criar_time(nome):
     }
 
 def calcular_score(t):
-    return round(
-        t["resultado"]
-        - (t["risco"] * 1.2)
-        + t["tecnica"]
-        + t["esg"],
-        2
-    )
 
 # =============================
 # DILEMAS (OBRIGATÓRIO ESTAR COMPLETO)
@@ -386,6 +379,9 @@ def registrar(id_dilema, perfil, time_key):
 
             for stat in ["resultado", "risco", "esg", "tecnica"]:
                 teams[t_k][stat] += dados["impacto"][stat]
+
+            # 🚫 trava risco mínimo em zero
+            teams[t_k]["risco"] = max(0, teams[t_k]["risco"])
 
             teams[t_k]["motivos"].append(dados["motivo"])
 
